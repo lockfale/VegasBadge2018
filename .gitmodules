@@ -1,3 +1,9 @@
 [submodule "Arduino-Makefile"]
 	path = Arduino-Makefile
 	url = https://github.com/sudar/Arduino-Makefile
+[submodule "libraries/SerialUI"]
+	path = libraries/SerialUI
+	url = https://github.com/psychogenic/SerialUI
+[submodule "libraries/EEPROMEx"]
+	path = libraries/EEPROMEx
+	url = https://github.com/thijse/Arduino-EEPROMEx
