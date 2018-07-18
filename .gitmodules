@@ -7,9 +7,6 @@
 [submodule "libraries/EEPROMEx"]
 	path = libraries/EEPROMEx
 	url = https://github.com/thijse/Arduino-EEPROMEx
-[submodule "libraries/Adafruit_NeoPixel"]
-	path = libraries/Adafruit_NeoPixel
-	url = https://github.com/adafruit/Adafruit_NeoPixel.git
 [submodule "libraries/FastLED"]
 	path = libraries/FastLED
 	url = https://github.com/FastLED/FastLED.git
