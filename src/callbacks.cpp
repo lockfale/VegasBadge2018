@@ -10,10 +10,12 @@
 
 /* our project specific types and functions are here */
 #include "badge.h"
+#include "neo.h"
 
 void doMaintenanceStuff()
 {
 	/* Here is where we will make updates for each loop */
+	NEO::UpdateNeo();
 
 }
 

@@ -133,6 +133,54 @@ bool SetupSerialUI() {
 	
 	/* *** Main Menu -> Patterns *** */
 
+	if( ! submen2->addCommand(
+		SUI_STR("chase"),
+		NEO::chasePattern,
+		SUI_STR("Chase the LEDs..."))) {
+		MySUI.returnError(CouldntAddItemErr);
+		return false;
+	}
+	
+	if( ! submen2->addCommand(
+		SUI_STR("confetti"),
+		NEO::confettiPattern,
+		SUI_STR("Party!!"))) {
+		MySUI.returnError(CouldntAddItemErr);
+		return false;
+	}
+	
+	if( ! submen2->addCommand(
+		SUI_STR("popo"),
+		NEO::popoPattern,
+		SUI_STR("Popo coming..."))) {
+		MySUI.returnError(CouldntAddItemErr);
+		return false;
+	}
+	
+	if( ! submen2->addCommand(
+		SUI_STR("rainbow"),
+		NEO::rainbowPattern,
+		SUI_STR("Taste the rainbow"))) {
+		MySUI.returnError(CouldntAddItemErr);
+		return false;
+	}
+	
+	if( ! submen2->addCommand(
+		SUI_STR("strobe"),
+		NEO::strobePattern,
+		SUI_STR("Caution, may cause seizures!!"))) {
+		MySUI.returnError(CouldntAddItemErr);
+		return false;
+	}
+	
+	if( ! submen2->addCommand(
+		SUI_STR("surge"),
+		NEO::surgePattern,
+		SUI_STR("Surging blue..."))) {
+		MySUI.returnError(CouldntAddItemErr);
+		return false;
+	}
+	
 	/* *** Main Menu -> I2C *** */
 	
 	/*

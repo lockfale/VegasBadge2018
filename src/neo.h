@@ -13,6 +13,14 @@ namespace NEO {
 	void greenColor();
 	void blueColor();
 
+	void chasePattern();
+	void confettiPattern();
+	void popoPattern();
+	void rainbowPattern();
+	void strobePattern();
+	void surgePattern();
+
+	void UpdateNeo();
 }
 
 

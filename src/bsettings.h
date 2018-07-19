@@ -20,7 +20,7 @@
 // periodically while someone is connected...
 // Set heartbeat_function_period_ms (millis) to specify
 // how often it will be called
-#define heartbeat_function_period_ms  500
+#define heartbeat_function_period_ms  50
 
 
 // serial_maxidle_ms -- how long before we consider the user

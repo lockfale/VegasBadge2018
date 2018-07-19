@@ -12,12 +12,13 @@
 
 /* **** standard setup() function **** */
 void setup() {
+	// setup FastLED to control NeoPixels
+	NEO::SetupNeo();
+	NEO::chasePattern();
+
 	if (!SetupSerialUI()) {
 		DIE_HORRIBLY(F("Problem during setup"));
 	}
-
-	// setup FastLED to control NeoPixels
-	NEO::SetupNeo();
 }
 
 
@@ -37,5 +38,4 @@ void loop() {
 		// maintenance 'manually'
 		doMaintenanceStuff();
 	}
-
 }
