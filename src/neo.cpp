@@ -106,7 +106,7 @@ namespace NEO {
 	}
 
 	void confettiPatternUpdate() {
-		if (checkTime(100)) {
+		if (checkTime(50)) {
 			uint16_t pos = random16(NUM_LEDS);
 			leds[pos] = CHSV(gHue + random8(64), 200, 255);
 			FastLED.show();
@@ -121,7 +121,7 @@ namespace NEO {
 	}
 
 	void popoPatternUpdate() {
-		if (checkTime(50)) {
+		if (checkTime(20)) {
 			if (cyclePosition == 0 || cyclePosition == 3) { 
 				leds[0] = CRGB::Red;
 				leds[5] = CRGB::Red;
@@ -150,7 +150,7 @@ namespace NEO {
 	}
 
 	void rainbowPatternUpdate() {
-		if (checkTime(100)) {
+		if (checkTime(50)) {
 			fill_rainbow( leds, NUM_LEDS, gHue++, 7);
 			FastLED.show();
 		}
