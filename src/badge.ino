@@ -9,12 +9,15 @@
 /* our project specific types and functions are here */
 #include "badge.h"
 #include "neo.h"
+#include "i2c.h"
 
 /* **** standard setup() function **** */
 void setup() {
 	// setup FastLED to control NeoPixels
 	NEO::SetupNeo();
 	NEO::chasePattern();
+
+	I2C::SetupI2C();
 
 	if (!SetupSerialUI()) {
 		DIE_HORRIBLY(F("Problem during setup"));

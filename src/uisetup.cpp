@@ -11,6 +11,7 @@
 /* our project specific types and functions are here */
 #include "badge.h"
 #include "neo.h"
+#include "i2c.h"
 
 
 
@@ -86,7 +87,7 @@ bool SetupSerialUI() {
 	
 	SUI::Menu * submen3 = topMenu->subMenu(
 		SUI_STR("i2c"),
-		SUI_STR("SOA Communications"),
+		SUI_STR("SAO Communications"),
 		2);
 	if (! submen3 ) { 
 		DIE_HORRIBLY(CouldntCreateMenuErr);
@@ -183,16 +184,13 @@ bool SetupSerialUI() {
 	
 	/* *** Main Menu -> I2C *** */
 	
-	/*
-	if( ! submen2->addCommand(
-		SUI_STR("Scan"),
-		I2C::scan,
-		SUI_STR("Scan for SOAs"))) {
+	if( ! submen3->addCommand(
+		SUI_STR("scan"),
+		I2C::Scan,
+		SUI_STR("Scan for SAOs"))) {
 		MySUI.returnError(CouldntAddItemErr);
 		return false;
 	}
-	
-	*/
 	
 
 	return true;
