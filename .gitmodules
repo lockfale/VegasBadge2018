@@ -10,3 +10,6 @@
 [submodule "libraries/FastLED"]
 	path = libraries/FastLED
 	url = https://github.com/FastLED/FastLED.git
+[submodule "libraries/arduino-multi-button"]
+	path = libraries/arduino-multi-button
+	url = https://github.com/poelstra/arduino-multi-button.git

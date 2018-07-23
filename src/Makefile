@@ -16,7 +16,7 @@ ARDMK_DIR = $(PROJECT_DIR)/Arduino-Makefile
 ### Path to the Arduino application and ressources directory.
 ARDUINO_DIR = /usr/local/arduino
 
-ARDUINO_LIBS = SerialUI FastLED Wire
+ARDUINO_LIBS = SerialUI FastLED Wire arduino-multi-button
 
 ### USER_LIB_PATH
 ### Path to where the project's libraries are stored.
