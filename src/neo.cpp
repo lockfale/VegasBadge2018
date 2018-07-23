@@ -14,7 +14,7 @@ namespace NEO {
 	const uint16_t NUM_LEDS = 6;
 	CRGB leds[NUM_LEDS];
 	uint8_t gHue = 0;
-	uint8_t cyclePosition = 0;
+	uint8_t patternPosition = 0;
 	unsigned long previousPatternMillis = 0;
 
 	enum patterns {
@@ -83,18 +83,18 @@ namespace NEO {
 	/* *** Pattern: Chase *** */
 	void chasePattern() {
 		curPattern = CHASE;
-		cyclePosition = 0;
+		patternPosition = 0;
 	}
 
 	void chasePatternUpdate() {
 		if (checkTime(100)) {
-			leds[cyclePosition] = CHSV(gHue++, 255, 255);
+			leds[patternPosition] = CHSV(gHue++, 255, 255);
 			FastLED.show();
 			fadeall(80);
-			if (cyclePosition + 1 < NUM_LEDS) {
-				cyclePosition++;
+			if (patternPosition + 1 < NUM_LEDS) {
+				patternPosition++;
 			} else {
-				cyclePosition = 0;
+				patternPosition = 0;
 			}
 		}
 	}
@@ -102,7 +102,7 @@ namespace NEO {
 	/* *** Pattern: Confetti *** */
 	void confettiPattern() {
 		curPattern = CONFETTI;
-		cyclePosition = 0;
+		patternPosition = 0;
 	}
 
 	void confettiPatternUpdate() {
@@ -117,17 +117,17 @@ namespace NEO {
 	/* *** Pattern: Popo *** */
 	void popoPattern() {
 		curPattern = POPO;
-		cyclePosition = 0;
+		patternPosition = 0;
 	}
 
 	void popoPatternUpdate() {
 		if (checkTime(20)) {
-			if (cyclePosition == 0 || cyclePosition == 3) { 
+			if (patternPosition == 0 || patternPosition == 3) { 
 				leds[0] = CRGB::Red;
 				leds[5] = CRGB::Red;
 				leds[1] = CRGB::Blue;
 				leds[4] = CRGB::Blue;
-			} else if (cyclePosition == 10 || cyclePosition == 13) {
+			} else if (patternPosition == 10 || patternPosition == 13) {
 				leds[1] = CRGB::Red;
 				leds[4] = CRGB::Red;
 				leds[2] = CRGB::Blue;
@@ -135,10 +135,10 @@ namespace NEO {
 			}
 			FastLED.show();
 			fadeall(180);
-			if (cyclePosition < 20) {
-				cyclePosition++;
+			if (patternPosition < 20) {
+				patternPosition++;
 			} else {
-				cyclePosition = 0;
+				patternPosition = 0;
 			}
 		}
 	}
@@ -146,7 +146,7 @@ namespace NEO {
 	/* *** Pattern: Rainbow *** */
 	void rainbowPattern() {
 		curPattern = RAINBOW;
-		cyclePosition = 0;
+		patternPosition = 0;
 	}
 
 	void rainbowPatternUpdate() {
@@ -159,22 +159,22 @@ namespace NEO {
 	/* *** Pattern: Strobe *** */
 	void strobePattern() {
 		curPattern = STROBE;
-		cyclePosition = 0;
+		patternPosition = 0;
 	}
 
 	void strobePatternUpdate() {
 		if (checkTime(50)) {
-			if (cyclePosition < 20 && cyclePosition % 2 == 0) { 
+			if (patternPosition < 20 && patternPosition % 2 == 0) { 
 				for( uint16_t i = 0; i<NUM_LEDS; i++){
 					leds[i] = CRGB(0xff, 0xff, 0xff);
 				}
 			}
 			FastLED.show();
 			fadeall(90);
-			if (cyclePosition + 1 < 50) {
-				cyclePosition++;
+			if (patternPosition + 1 < 50) {
+				patternPosition++;
 			} else {
-				cyclePosition = 0;
+				patternPosition = 0;
 			}
 		}
 	}
@@ -182,7 +182,7 @@ namespace NEO {
 	/* *** Pattern: Surge *** */
 	void surgePattern() {
 		curPattern = SURGE;
-		cyclePosition = 0;
+		patternPosition = 0;
 		for( uint16_t i = 0; i<NUM_LEDS; i++){
 			leds[i] = CRGB::Blue;
 		}
@@ -192,17 +192,17 @@ namespace NEO {
 	void surgePatternUpdate() {
 		if (checkTime(100)) {
 			for( uint16_t j = 0; j < NUM_LEDS; j++) {
-				if (cyclePosition < 10) { 
+				if (patternPosition < 10) { 
 					leds[j].nscale8(200);
 				} else {
 					leds[j] += leds[j].scale8(250);
 				}
 			}
 			FastLED.show();
-			if (cyclePosition  < 20) {
-				cyclePosition++;
+			if (patternPosition  < 20) {
+				patternPosition++;
 			} else {
-				cyclePosition = 0;
+				patternPosition = 0;
 			}
 		}
 	}
