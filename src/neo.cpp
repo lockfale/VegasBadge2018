@@ -281,6 +281,21 @@ namespace NEO {
 		if ( curColor >= COLORS_NR_ITEMS ) {
 			curColor = 1;
 		}
+
+		switch (curColor) {
+			case PINK:
+				pinkColor();
+				break;
+			case RED:
+				redColor();
+				break;
+			case GREEN:
+				greenColor();
+				break;
+			case BLUE:
+				blueColor();
+				break;
+		}
 	}
 
 	void cyclePattern() {
@@ -288,6 +303,27 @@ namespace NEO {
 		curPattern += 1;
 		if ( curPattern >= PATTERNS_NR_ITEMS ) {
 			curPattern = 1;
+		}
+
+		switch (curPattern) {
+			case CHASE:
+				chasePattern();
+				break;
+			case CONFETTI:
+				confettiPattern();
+				break;
+			case POPO:
+				popoPattern();
+				break;
+			case RAINBOW:
+				rainbowPattern();
+				break;
+			case STROBE:
+				strobePattern();
+				break;
+			case SURGE:
+				surgePattern();
+				break;
 		}
 	}
 
