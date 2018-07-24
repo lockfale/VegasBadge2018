@@ -18,13 +18,17 @@ namespace Button {
 		myButton.update();
 
 		if (myButton.isSingleClick()) {
-			MySUI.println(F("Cycle in current mode..."));
+			MySUI.println(F("Cycle in current mode."));
 			NEO::cycleMode();
 		}
 
 		if (myButton.isDoubleClick()) {
 			MySUI.println(F("Switching modes"));
 			NEO::switchMode();
+		}
+
+		if (myButton.isLongClick()) {
+			MySUI.println(F("Detected Long Press..."));
 		}
 
 	}
