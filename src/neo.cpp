@@ -17,22 +17,42 @@ namespace NEO {
 	uint8_t patternPosition = 0;
 	unsigned long previousPatternMillis = 0;
 
-	enum patterns {
-		NO_PATTERN,
-		CHASE,
-		CONFETTI,
-		POPO,
-		RAINBOW,
-		STROBE,
-		SURGE,
+
+	// Colors must be incrementing unique values
+	// COLORS_NR_ITEMS is always the last value in the list
+	const uint8_t NO_COLOR = 0;
+	const uint8_t PINK = 1;
+	const uint8_t RED = 2;
+	const uint8_t GREEN = 3;
+	const uint8_t BLUE = 4;
+	const uint8_t COLORS_NR_ITEMS = 5;
+
+	uint8_t curColor = 0;
+
+	// Patterns must be incrementing unique values
+	// PATTERNS_NR_ITEMS is always the last value in the list
+	const uint8_t NO_PATTERN = 0;
+	const uint8_t CHASE = 1;
+	const uint8_t CONFETTI = 2;
+	const uint8_t POPO = 3;
+	const uint8_t RAINBOW = 4;
+	const uint8_t STROBE = 5;
+	const uint8_t SURGE = 6;
+	const uint8_t PATTERNS_NR_ITEMS = 7;
+
+	uint8_t curPattern = 0;
+
+	enum modes {
+		COLORS,
+		PATTERNS,
 	};
-	enum patterns curPattern;
+	enum modes curMode;
 
 	void SetupNeo() {
 		FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
 	}
 
-	void fadeall(uint8_t value) {
+	void fadeAll(uint8_t value) {
 		for( uint16_t j = 0; j < NUM_LEDS; j++) {
 			leds[j].nscale8(value);
 		}
@@ -49,7 +69,9 @@ namespace NEO {
 	}
 
 	void pinkColor() {
+		curColor = PINK;
 		curPattern = NO_PATTERN;
+		setColorMode();
 		for( uint16_t i = 0; i<NUM_LEDS; i++){
 			leds[i] = CRGB(0xff, 0x14, 0x93);
 		}
@@ -57,7 +79,9 @@ namespace NEO {
 	}
 
 	void redColor() {
+		curColor = RED;
 		curPattern = NO_PATTERN;
+		setColorMode();
 		for( uint16_t i = 0; i<NUM_LEDS; i++){
 			leds[i] = CRGB::Red;
 		}
@@ -65,7 +89,9 @@ namespace NEO {
 	}
 
 	void greenColor() {
+		curColor = GREEN;
 		curPattern = NO_PATTERN;
+		setColorMode();
 		for( uint16_t i = 0; i<NUM_LEDS; i++){
 			leds[i] = CRGB::Green;
 		}
@@ -73,7 +99,9 @@ namespace NEO {
 	}
 
 	void blueColor() {
+		curColor = BLUE;
 		curPattern = NO_PATTERN;
+		setColorMode();
 		for( uint16_t i = 0; i<NUM_LEDS; i++){
 			leds[i] = CRGB::Blue;
 		}
@@ -82,7 +110,9 @@ namespace NEO {
 
 	/* *** Pattern: Chase *** */
 	void chasePattern() {
+		curColor = NO_COLOR;
 		curPattern = CHASE;
+		setPatternMode();
 		patternPosition = 0;
 	}
 
@@ -90,7 +120,7 @@ namespace NEO {
 		if (checkTime(100)) {
 			leds[patternPosition] = CHSV(gHue++, 255, 255);
 			FastLED.show();
-			fadeall(80);
+			fadeAll(80);
 			if (patternPosition + 1 < NUM_LEDS) {
 				patternPosition++;
 			} else {
@@ -101,7 +131,9 @@ namespace NEO {
 
 	/* *** Pattern: Confetti *** */
 	void confettiPattern() {
+		curColor = NO_COLOR;
 		curPattern = CONFETTI;
+		setPatternMode();
 		patternPosition = 0;
 	}
 
@@ -110,13 +142,15 @@ namespace NEO {
 			uint16_t pos = random16(NUM_LEDS);
 			leds[pos] = CHSV(gHue + random8(64), 200, 255);
 			FastLED.show();
-			fadeall(80);
+			fadeAll(80);
 		}
 	}
 
 	/* *** Pattern: Popo *** */
 	void popoPattern() {
+		curColor = NO_COLOR;
 		curPattern = POPO;
+		setPatternMode();
 		patternPosition = 0;
 	}
 
@@ -134,7 +168,7 @@ namespace NEO {
 				leds[3] = CRGB::Blue;
 			}
 			FastLED.show();
-			fadeall(180);
+			fadeAll(180);
 			if (patternPosition < 20) {
 				patternPosition++;
 			} else {
@@ -145,7 +179,9 @@ namespace NEO {
 
 	/* *** Pattern: Rainbow *** */
 	void rainbowPattern() {
+		curColor = NO_COLOR;
 		curPattern = RAINBOW;
+		setPatternMode();
 		patternPosition = 0;
 	}
 
@@ -158,7 +194,9 @@ namespace NEO {
 
 	/* *** Pattern: Strobe *** */
 	void strobePattern() {
+		curColor = NO_COLOR;
 		curPattern = STROBE;
+		setPatternMode();
 		patternPosition = 0;
 	}
 
@@ -170,7 +208,7 @@ namespace NEO {
 				}
 			}
 			FastLED.show();
-			fadeall(90);
+			fadeAll(90);
 			if (patternPosition + 1 < 50) {
 				patternPosition++;
 			} else {
@@ -181,8 +219,11 @@ namespace NEO {
 
 	/* *** Pattern: Surge *** */
 	void surgePattern() {
+		curColor = NO_COLOR;
 		curPattern = SURGE;
+		setPatternMode();
 		patternPosition = 0;
+
 		for( uint16_t i = 0; i<NUM_LEDS; i++){
 			leds[i] = CRGB::Blue;
 		}
@@ -233,4 +274,45 @@ namespace NEO {
 				break;
 		}
 	}
+
+	void cycleColor() {
+		curPattern = NO_PATTERN;
+		curColor += 1;
+		if ( curColor >= COLORS_NR_ITEMS ) {
+			curColor = 1;
+		}
+	}
+
+	void cyclePattern() {
+		curColor = NO_COLOR;
+		curPattern += 1;
+		if ( curPattern >= PATTERNS_NR_ITEMS ) {
+			curPattern = 1;
+		}
+	}
+
+	void setColorMode() {
+		curMode = COLORS;
+	}
+
+	void setPatternMode() {
+		curMode = PATTERNS;
+	}
+
+	void switchMode() {
+		if ( curMode == COLORS ) {
+			setPatternMode();
+		} else {
+			setColorMode();
+		}
+	}
+
+	void cycleMode() {
+		if ( curMode == COLORS ) {
+			cycleColor();
+		} else {
+			cyclePattern();
+		}
+	}
+
 }

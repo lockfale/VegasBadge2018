@@ -1,6 +1,7 @@
 #include <PinButton.h>
 #include "badge.h"
 #include "bbutton.h"
+#include "neo.h"
 
 /*
 	bbutton.cpp -- part of the VegasBadge2018 project.
@@ -17,11 +18,13 @@ namespace Button {
 		myButton.update();
 
 		if (myButton.isSingleClick()) {
-			MySUI.println(F("Single button click..."));
+			MySUI.println(F("Cycle in current mode..."));
+			NEO::cycleMode();
 		}
 
 		if (myButton.isDoubleClick()) {
-			MySUI.println(F("Double button click..."));
+			MySUI.println(F("Switching modes"));
+			NEO::switchMode();
 		}
 
 	}

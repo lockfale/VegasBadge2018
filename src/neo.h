@@ -21,6 +21,12 @@ namespace NEO {
 	void surgePattern();
 
 	void UpdateNeo();
+
+	void setColorMode();
+	void setPatternMode();
+	void switchMode();
+	void cycleMode();
+
 }
 
 
