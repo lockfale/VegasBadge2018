@@ -25,6 +25,7 @@ namespace Button {
 		if (myButton.isDoubleClick()) {
 			MySUI.println(F("Switching modes"));
 			NEO::switchMode();
+			NEO::cycleMode();
 		}
 
 		if (myButton.isLongClick()) {
