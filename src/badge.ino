@@ -9,13 +9,14 @@
 /* our project specific types and functions are here */
 #include "badge.h"
 #include "neo.h"
+#include "savecfg.h"
 #include "i2c.h"
 
 /* **** standard setup() function **** */
 void setup() {
 	// setup FastLED to control NeoPixels
+	CFG::SetupCfg();
 	NEO::SetupNeo();
-	NEO::chasePattern();
 
 	I2C::SetupI2C();
 

@@ -13,6 +13,11 @@ namespace NEO {
 	void greenColor();
 	void blueColor();
 
+	void ChangePink();
+	void ChangeRed();
+	void ChangeGreen();
+	void ChangeBlue();
+
 	void chasePattern();
 	void confettiPattern();
 	void popoPattern();
@@ -20,10 +25,25 @@ namespace NEO {
 	void strobePattern();
 	void surgePattern();
 
+	void ChangeChase();
+	void ChangeConfetti();
+	void ChangePopo();
+	void ChangeRainbow();
+	void ChangeStrobe();
+	void ChangeSurge();
+
 	void UpdateNeo();
+
+	void setColor(uint8_t);
+	void PrintColor();
+
+	void setPattern(uint8_t);
+	void PrintPattern();
 
 	void setColorMode();
 	void setPatternMode();
+	void setMode(uint8_t);
+	void PrintMode();
 	void switchMode();
 	void cycleMode();
 

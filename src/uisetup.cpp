@@ -12,6 +12,7 @@
 #include "badge.h"
 #include "neo.h"
 #include "i2c.h"
+#include "savecfg.h"
 
 
 
@@ -93,6 +94,14 @@ bool SetupSerialUI() {
 		DIE_HORRIBLY(CouldntCreateMenuErr);
 	}
 	
+	SUI::Menu * submen4 = topMenu->subMenu(
+		SUI_STR("debug"),
+		SUI_STR("Debug"),
+		2);
+	if (! submen4 ) { 
+		DIE_HORRIBLY(CouldntCreateMenuErr);
+	}
+	
 
 
 	// add everything to the right sub-menu
@@ -102,7 +111,7 @@ bool SetupSerialUI() {
 	
 	if( ! submen1->addCommand(
 		SUI_STR("pink"),
-		NEO::pinkColor,
+		NEO::ChangePink,
 		SUI_STR("Make the LEDs pink..."))) {
 		MySUI.returnError(CouldntAddItemErr);
 		return false;
@@ -110,7 +119,7 @@ bool SetupSerialUI() {
 	
 	if( ! submen1->addCommand(
 		SUI_STR("red"),
-		NEO::redColor,
+		NEO::ChangeRed,
 		SUI_STR("Make the LEDs red..."))) {
 		MySUI.returnError(CouldntAddItemErr);
 		return false;
@@ -118,7 +127,7 @@ bool SetupSerialUI() {
 	
 	if( ! submen1->addCommand(
 		SUI_STR("green"),
-		NEO::greenColor,
+		NEO::ChangeGreen,
 		SUI_STR("Make the LEDs green..."))) {
 		MySUI.returnError(CouldntAddItemErr);
 		return false;
@@ -126,7 +135,7 @@ bool SetupSerialUI() {
 	
 	if( ! submen1->addCommand(
 		SUI_STR("blue"),
-		NEO::blueColor,
+		NEO::ChangeBlue,
 		SUI_STR("Make the LEDs blue..."))) {
 		MySUI.returnError(CouldntAddItemErr);
 		return false;
@@ -136,7 +145,7 @@ bool SetupSerialUI() {
 
 	if( ! submen2->addCommand(
 		SUI_STR("chase"),
-		NEO::chasePattern,
+		NEO::ChangeChase,
 		SUI_STR("Chase the LEDs..."))) {
 		MySUI.returnError(CouldntAddItemErr);
 		return false;
@@ -144,7 +153,7 @@ bool SetupSerialUI() {
 	
 	if( ! submen2->addCommand(
 		SUI_STR("confetti"),
-		NEO::confettiPattern,
+		NEO::ChangeConfetti,
 		SUI_STR("Party!!"))) {
 		MySUI.returnError(CouldntAddItemErr);
 		return false;
@@ -152,7 +161,7 @@ bool SetupSerialUI() {
 	
 	if( ! submen2->addCommand(
 		SUI_STR("popo"),
-		NEO::popoPattern,
+		NEO::ChangePopo,
 		SUI_STR("Popo coming..."))) {
 		MySUI.returnError(CouldntAddItemErr);
 		return false;
@@ -160,7 +169,7 @@ bool SetupSerialUI() {
 	
 	if( ! submen2->addCommand(
 		SUI_STR("rainbow"),
-		NEO::rainbowPattern,
+		NEO::ChangeRainbow,
 		SUI_STR("Taste the rainbow"))) {
 		MySUI.returnError(CouldntAddItemErr);
 		return false;
@@ -168,7 +177,7 @@ bool SetupSerialUI() {
 	
 	if( ! submen2->addCommand(
 		SUI_STR("strobe"),
-		NEO::strobePattern,
+		NEO::ChangeStrobe,
 		SUI_STR("Caution, may cause seizures!!"))) {
 		MySUI.returnError(CouldntAddItemErr);
 		return false;
@@ -176,7 +185,7 @@ bool SetupSerialUI() {
 	
 	if( ! submen2->addCommand(
 		SUI_STR("surge"),
-		NEO::surgePattern,
+		NEO::ChangeSurge,
 		SUI_STR("Surging blue..."))) {
 		MySUI.returnError(CouldntAddItemErr);
 		return false;
@@ -192,6 +201,15 @@ bool SetupSerialUI() {
 		return false;
 	}
 	
+	/* *** Main Menu -> Debug *** */
+	
+	if( ! submen4->addCommand(
+		SUI_STR("eeprom"),
+		CFG::PrintEEPROM,
+		SUI_STR("Print EEPROM settings"))) {
+		MySUI.returnError(CouldntAddItemErr);
+		return false;
+	}
 
 	return true;
 	

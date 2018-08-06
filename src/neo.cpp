@@ -1,6 +1,7 @@
 #include <FastLED.h>
 #include "badge.h"
 #include "neo.h"
+#include "savecfg.h"
 
 /*
 	neo.cpp -- part of the VegasBadge2018 project.
@@ -42,14 +43,17 @@ namespace NEO {
 
 	uint8_t curPattern = 0;
 
-	enum modes {
-		COLORS,
-		PATTERNS,
-	};
-	enum modes curMode;
+	const uint8_t MODE_COLORS = 0;
+	const uint8_t MODE_PATTERNS = 1;
+
+	uint8_t curMode = 0;
 
 	void SetupNeo() {
 		FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
+
+		setColor(CFG::ReadColorID());
+		setPattern(CFG::ReadPatternID());
+		setMode(CFG::ReadMode());
 	}
 
 	void fadeAll(uint8_t value) {
@@ -70,50 +74,60 @@ namespace NEO {
 
 	void pinkColor() {
 		curColor = PINK;
-		curPattern = NO_PATTERN;
-		setColorMode();
 		for( uint16_t i = 0; i<NUM_LEDS; i++){
 			leds[i] = CRGB(0xff, 0x14, 0x93);
 		}
 		FastLED.show();
 	}
 
+	void ChangePink() {
+		setColor(PINK);
+	}
+
 	void redColor() {
 		curColor = RED;
-		curPattern = NO_PATTERN;
-		setColorMode();
 		for( uint16_t i = 0; i<NUM_LEDS; i++){
 			leds[i] = CRGB::Red;
 		}
 		FastLED.show();
 	}
 
+	void ChangeRed() {
+		setColor(RED);
+	}
+
 	void greenColor() {
 		curColor = GREEN;
-		curPattern = NO_PATTERN;
-		setColorMode();
 		for( uint16_t i = 0; i<NUM_LEDS; i++){
 			leds[i] = CRGB::Green;
 		}
 		FastLED.show();
 	}
 
+	void ChangeGreen() {
+		setColor(GREEN);
+	}
+
 	void blueColor() {
 		curColor = BLUE;
-		curPattern = NO_PATTERN;
-		setColorMode();
 		for( uint16_t i = 0; i<NUM_LEDS; i++){
 			leds[i] = CRGB::Blue;
 		}
 		FastLED.show();
 	}
 
+	void ChangeBlue() {
+		setColor(BLUE);
+	}
+
 	/* *** Pattern: Chase *** */
 	void chasePattern() {
-		curColor = NO_COLOR;
 		curPattern = CHASE;
-		setPatternMode();
 		patternPosition = 0;
+	}
+
+	void ChangeChase() {
+		setPattern(CHASE);
 	}
 
 	void chasePatternUpdate() {
@@ -131,10 +145,12 @@ namespace NEO {
 
 	/* *** Pattern: Confetti *** */
 	void confettiPattern() {
-		curColor = NO_COLOR;
 		curPattern = CONFETTI;
-		setPatternMode();
 		patternPosition = 0;
+	}
+
+	void ChangeConfetti() {
+		setPattern(CONFETTI);
 	}
 
 	void confettiPatternUpdate() {
@@ -148,10 +164,12 @@ namespace NEO {
 
 	/* *** Pattern: Popo *** */
 	void popoPattern() {
-		curColor = NO_COLOR;
 		curPattern = POPO;
-		setPatternMode();
 		patternPosition = 0;
+	}
+
+	void ChangePopo() {
+		setPattern(POPO);
 	}
 
 	void popoPatternUpdate() {
@@ -179,10 +197,12 @@ namespace NEO {
 
 	/* *** Pattern: Rainbow *** */
 	void rainbowPattern() {
-		curColor = NO_COLOR;
 		curPattern = RAINBOW;
-		setPatternMode();
 		patternPosition = 0;
+	}
+
+	void ChangeRainbow() {
+		setPattern(RAINBOW);
 	}
 
 	void rainbowPatternUpdate() {
@@ -194,10 +214,12 @@ namespace NEO {
 
 	/* *** Pattern: Strobe *** */
 	void strobePattern() {
-		curColor = NO_COLOR;
 		curPattern = STROBE;
-		setPatternMode();
 		patternPosition = 0;
+	}
+
+	void ChangeStrobe() {
+		setPattern(STROBE);
 	}
 
 	void strobePatternUpdate() {
@@ -219,15 +241,17 @@ namespace NEO {
 
 	/* *** Pattern: Surge *** */
 	void surgePattern() {
-		curColor = NO_COLOR;
 		curPattern = SURGE;
-		setPatternMode();
 		patternPosition = 0;
 
 		for( uint16_t i = 0; i<NUM_LEDS; i++){
 			leds[i] = CRGB::Blue;
 		}
 		FastLED.show();
+	}
+
+	void ChangeSurge() {
+		setPattern(SURGE);
 	}
 
 	void surgePatternUpdate() {
@@ -275,13 +299,15 @@ namespace NEO {
 		}
 	}
 
-	void cycleColor() {
-		curPattern = NO_PATTERN;
-		curColor += 1;
-		if ( curColor >= COLORS_NR_ITEMS ) {
+	void setColor(uint8_t c) {
+		setColorMode();
+		if ( c >= COLORS_NR_ITEMS ) {
 			curColor = 1;
+		} else {
+			curColor = c;
 		}
 
+		CFG::UpdateColorID(curColor);
 		switch (curColor) {
 			case PINK:
 				pinkColor();
@@ -298,13 +324,40 @@ namespace NEO {
 		}
 	}
 
-	void cyclePattern() {
-		curColor = NO_COLOR;
-		curPattern += 1;
-		if ( curPattern >= PATTERNS_NR_ITEMS ) {
+	void PrintColor() {
+		uint8_t c = CFG::ReadColorID();
+
+		MySUI.print("Color: ");
+		switch (c) {
+			case PINK:
+				MySUI.println("Pink");
+				break;
+			case RED:
+				MySUI.println("Red");
+				break;
+			case GREEN:
+				MySUI.println("Green");
+				break;
+			case BLUE:
+				MySUI.println("Blue");
+				break;
+		}
+	}
+
+	void cycleColor() {
+		curColor += 1;
+		setColor(curColor);
+	}
+
+	void setPattern(uint8_t p) {
+		setPatternMode();
+		if ( p >= PATTERNS_NR_ITEMS ) {
 			curPattern = 1;
+		} else {
+			curPattern = p;
 		}
 
+		CFG::UpdatePatternID(curPattern);
 		switch (curPattern) {
 			case CHASE:
 				chasePattern();
@@ -327,24 +380,84 @@ namespace NEO {
 		}
 	}
 
+	void PrintPattern() {
+		uint8_t p = CFG::ReadPatternID();
+
+		MySUI.print("Pattern: ");
+		switch (p) {
+			case CHASE:
+				MySUI.println("Chase");
+				break;
+			case CONFETTI:
+				MySUI.println("Confetti");
+				break;
+			case POPO:
+				MySUI.println("Popo");
+				break;
+			case RAINBOW:
+				MySUI.println("Rainbow");
+				break;
+			case STROBE:
+				MySUI.println("Strobe");
+				break;
+			case SURGE:
+				MySUI.println("Surge");
+				break;
+		}
+	}
+
+	void cyclePattern() {
+		curPattern += 1;
+		setPattern(curPattern);
+	}
+
 	void setColorMode() {
-		curMode = COLORS;
+		curMode = MODE_COLORS;
+		curPattern = NO_PATTERN;
 	}
 
 	void setPatternMode() {
-		curMode = PATTERNS;
+		curMode = MODE_PATTERNS;
+		curColor = NO_COLOR;
+	}
+
+	void setMode(uint8_t m) {
+		if ( m == MODE_COLORS ) {
+			setColorMode();
+			CFG::UpdateMode(MODE_COLORS);
+		} else if ( m == MODE_PATTERNS ) {
+			setPatternMode();
+			CFG::UpdateMode(MODE_PATTERNS);
+		} else {
+			setColorMode();
+			CFG::UpdateMode(MODE_COLORS);
+		}
+	}
+
+	void PrintMode() {
+		uint8_t m = CFG::ReadMode();
+
+		MySUI.print("Mode: ");
+		switch (m) {
+			case MODE_COLORS:
+				MySUI.println("Colors");
+				break;
+			case MODE_PATTERNS:
+				MySUI.println("Patterns");
+				break;
+		}
 	}
 
 	void switchMode() {
-		if ( curMode == COLORS ) {
-			setPatternMode();
+		if ( curMode == MODE_COLORS ) {
+			setMode(MODE_PATTERNS);
 		} else {
-			setColorMode();
+			setMode(MODE_COLORS);
 		}
 	}
 
 	void cycleMode() {
-		if ( curMode == COLORS ) {
+		if ( curMode == MODE_COLORS ) {
 			cycleColor();
 		} else {
 			cyclePattern();
