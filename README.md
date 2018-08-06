@@ -20,3 +20,25 @@ As regular user, download badge code into home directory (--recursive will pull 
     git clone --recursive https://github.com/lockfale/VegasBadge2018.git
 ```
 
+## Build and Upload to badge
+
+To build code:
+```
+    make
+```
+
+To upload to badge:
+```
+    make upload
+```
+
+To connect serial port (requires screen):
+```
+    make monitor
+```
+
+To disconnect from the serial port in screen session: 
+```
+    ^-a k Y
+```
+
