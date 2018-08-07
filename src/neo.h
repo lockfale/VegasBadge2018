@@ -12,6 +12,8 @@ namespace NEO {
 	void ToggleBrightness();
 	void PrintBrightness();
 
+	void TurnAllOff();
+
 	void pinkColor();
 	void redColor();
 	void greenColor();

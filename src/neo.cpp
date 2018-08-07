@@ -110,6 +110,18 @@ namespace NEO {
 		}
 	}
 
+	void noColor() {
+		curColor = NO_COLOR;
+		for( uint16_t i = 0; i<NUM_LEDS; i++){
+			leds[i] = CRGB::Black;
+		}
+		FastLED.show();
+	}
+
+	void TurnAllOff() {
+		setColor(NO_COLOR);
+	}
+
 	void pinkColor() {
 		curColor = PINK;
 		for( uint16_t i = 0; i<NUM_LEDS; i++){
@@ -341,6 +353,9 @@ namespace NEO {
 
 		CFG::UpdateColorID(curColor);
 		switch (curColor) {
+			case NO_COLOR:
+				noColor();
+				break;
 			case PINK:
 				pinkColor();
 				break;
