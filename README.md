@@ -42,3 +42,38 @@ To disconnect from the serial port in screen session:
     ^-a k Y
 ```
 
+## Menu System
+
+The badges uses the SerialUI library for a menu system on the serial port.
+
+The following is the current menu system:
+
+```
+TOP
+   + colors              Change to solids colors 
+      * pink                Make the LEDs pink... 
+      * red                 Make the LEDs red... 
+      * green               Make the LEDs green... 
+      * blue                Make the LEDs blue... 
+   + patterns            Change LED patterns 
+      * chase               Chase the LEDs... 
+      * confetti            Party!! 
+      * popo                Popo coming... 
+      * rainbow             Taste the rainbow 
+      * strobe              Caution, may cause seizures!! 
+      * surge               Surging blue...
+   + i2c                 SAO Communications 
+      * scan                Scan for SAOs
+   + power               Power Savings 
+      * brightness          Toggle LED Brightness Level 
+      * print               Print Power Configuration
+  + debug               Debug 
+      * eeprom              Print EEPROM settings
+```
+
+The following are commands that are available on all menus:
+```
+..                  Move up to parent menu
+?                   List available menu items
+```
+
