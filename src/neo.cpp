@@ -56,6 +56,7 @@ namespace NEO {
 		setColor(CFG::ReadColorID());
 		setPattern(CFG::ReadPatternID());
 		setMode(CFG::ReadMode());
+		FastLED.setBrightness( CFG::ReadBrightness() );
 	}
 
 	void fadeAll(uint8_t value) {
