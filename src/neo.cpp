@@ -53,10 +53,27 @@ namespace NEO {
 	void SetupNeo() {
 		FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
 
-		setColor(CFG::ReadColorID());
-		setPattern(CFG::ReadPatternID());
-		setMode(CFG::ReadMode());
-		FastLED.setBrightness( CFG::ReadBrightness() );
+		if(CFG::ReadBrightness() == brightnessHigh) {
+			FastLED.setBrightness( brightnessHigh );
+		} else if(CFG::ReadBrightness() == brightnessLow) {
+			FastLED.setBrightness( brightnessLow );
+		} else {
+			FastLED.setBrightness( brightnessHigh );
+			CFG::UpdateBrightness( brightnessHigh );
+		}
+
+		if ( CFG::ReadMode() == MODE_COLORS ) {
+			setColorMode();
+			setColor(CFG::ReadColorID());
+		} else if ( CFG::ReadMode() == MODE_PATTERNS ) {
+			setPatternMode();
+			setPattern(CFG::ReadPatternID());
+		} else {
+			setColorMode();
+			setColor(CFG::ReadColorID());
+			CFG::UpdateMode(MODE_COLORS);
+		}
+
 	}
 
 	void fadeAll(uint8_t value) {
