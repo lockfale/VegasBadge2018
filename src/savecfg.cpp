@@ -38,7 +38,7 @@ namespace CFG {
 
 			UpdateColorID(0);
 			UpdatePatternID(0);
-			UpdateMode(0);
+			UpdateMode(1);
 			UpdateBrightness(255);
 
 		}

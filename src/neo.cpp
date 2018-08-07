@@ -45,10 +45,11 @@ namespace NEO {
 
 	uint8_t curPattern = 0;
 
-	const uint8_t MODE_COLORS = 0;
-	const uint8_t MODE_PATTERNS = 1;
+	const uint8_t NO_MODE = 0;
+	const uint8_t MODE_COLORS = 1;
+	const uint8_t MODE_PATTERNS = 2;
 
-	uint8_t curMode = 0;
+	uint8_t curMode = NO_MODE;
 
 	void SetupNeo() {
 		FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
@@ -110,16 +111,12 @@ namespace NEO {
 		}
 	}
 
-	void noColor() {
-		curColor = NO_COLOR;
+	void TurnAllOff() {
+		curMode = NO_MODE;
 		for( uint16_t i = 0; i<NUM_LEDS; i++){
 			leds[i] = CRGB::Black;
 		}
 		FastLED.show();
-	}
-
-	void TurnAllOff() {
-		setColor(NO_COLOR);
 	}
 
 	void pinkColor() {
@@ -318,28 +315,30 @@ namespace NEO {
 
 	/* *** Update function *** */
 	void UpdateNeo() {
-		switch (curPattern) {
-			case NO_PATTERN:
-				// Nothing to do
-				break;
-			case CHASE:
-				chasePatternUpdate();
-				break;
-			case CONFETTI:
-				confettiPatternUpdate();
-				break;
-			case POPO:
-				popoPatternUpdate();
-				break;
-			case RAINBOW:
-				rainbowPatternUpdate();
-				break;
-			case STROBE:
-				strobePatternUpdate();
-				break;
-			case SURGE:
-				surgePatternUpdate();
-				break;
+		if ( curMode == MODE_PATTERNS ) {
+			switch (curPattern) {
+				case NO_PATTERN:
+					// Nothing to do
+					break;
+				case CHASE:
+					chasePatternUpdate();
+					break;
+				case CONFETTI:
+					confettiPatternUpdate();
+					break;
+				case POPO:
+					popoPatternUpdate();
+					break;
+				case RAINBOW:
+					rainbowPatternUpdate();
+					break;
+				case STROBE:
+					strobePatternUpdate();
+					break;
+				case SURGE:
+					surgePatternUpdate();
+					break;
+			}
 		}
 	}
 
@@ -356,9 +355,6 @@ namespace NEO {
 		}
 
 		switch (curColor) {
-			case NO_COLOR:
-				noColor();
-				break;
 			case PINK:
 				pinkColor();
 				break;
@@ -395,11 +391,7 @@ namespace NEO {
 	}
 
 	void cycleColor() {
-		if ( curColor == NO_COLOR ) {
-			curColor = CFG::ReadColorID();
-		} else {
-			curColor += 1;
-		}
+		curColor += 1;
 		setColor(curColor);
 	}
 
@@ -507,18 +499,33 @@ namespace NEO {
 		if ( curMode == MODE_COLORS ) {
 			setMode(MODE_PATTERNS);
 			setPattern(CFG::ReadPatternID());
-		} else {
+		} else if ( curMode == MODE_PATTERNS ) {
 			setMode(MODE_COLORS);
 			setColor(CFG::ReadColorID());
+		} else {
+			if ( CFG::ReadMode() == MODE_COLORS ) {
+				setMode(MODE_COLORS);
+				setColor(CFG::ReadColorID());
+			} else {
+				setMode(MODE_PATTERNS);
+				setPattern(CFG::ReadPatternID());
+			}
 		}
 	}
 
 	void cycleCurrentMode() {
 		if ( curMode == MODE_COLORS ) {
 			cycleColor();
-		} else {
+		} else if ( curMode == MODE_PATTERNS ) {
 			cyclePattern();
+		} else {
+			if ( CFG::ReadMode() == MODE_COLORS ) {
+				setMode(MODE_COLORS);
+				setColor(CFG::ReadColorID());
+			} else {
+				setMode(MODE_PATTERNS);
+				setPattern(CFG::ReadPatternID());
+			}
 		}
 	}
-
 }
