@@ -12,12 +12,15 @@
 namespace CFG {
 
 	int versionLength = 7;
-	byte badgeVersion[] = {1, 0, 18, 8 , 5 , 13 , 8 };
+
+	// badgeVersion = major version, minor version, year, month, day, hour, min
+	byte badgeVersion[] = {1, 0, 18, 8 , 7 , 9 , 7 };
 
 	uint8_t cfgVersion;
 	uint8_t cfgColorID;
 	uint8_t cfgPatternID;
 	uint8_t cfgMode;
+	uint8_t cfgBrightness;
 
 	void SetupCfg() {
 		byte localVersion[versionLength];
@@ -26,6 +29,7 @@ namespace CFG {
 		cfgColorID = EEPROM.getAddress(sizeof(byte));
 		cfgPatternID = EEPROM.getAddress(sizeof(byte));
 		cfgMode = EEPROM.getAddress(sizeof(byte));
+		cfgBrightness = EEPROM.getAddress(sizeof(byte));
 
 		EEPROM.readBlock<byte>(cfgVersion, localVersion, versionLength);
 		if (memcmp(localVersion, badgeVersion, versionLength) != 0) {
@@ -35,6 +39,7 @@ namespace CFG {
 			UpdateColorID(0);
 			UpdatePatternID(0);
 			UpdateMode(0);
+			UpdateBrightness(255);
 
 		}
 	}
@@ -69,10 +74,21 @@ namespace CFG {
 		return EEPROM.updateByte(cfgMode, id);
 	}
 
+	uint8_t ReadBrightness()
+	{
+		return EEPROM.read(cfgBrightness);
+	}
+
+	bool UpdateBrightness(uint8_t id)
+	{
+		return EEPROM.updateByte(cfgBrightness, id);
+	}
+
 	void PrintEEPROM(void) {
 		NEO::PrintColor();
 		NEO::PrintPattern();
 		NEO::PrintMode();
+		NEO::PrintBrightness();
 	}
 
 }

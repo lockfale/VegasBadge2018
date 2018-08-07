@@ -8,6 +8,10 @@
 namespace NEO {
 
 	void SetupNeo();
+
+	void ToggleBrightness();
+	void PrintBrightness();
+
 	void pinkColor();
 	void redColor();
 	void greenColor();

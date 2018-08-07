@@ -45,17 +45,17 @@ bool SetupSerialUI() {
 	MySUI.setReadTerminator(serial_input_terminator);
 
 	// have a "heartbeat" function to hook-up
-	MySUI.setUserPresenceHeartbeat(CustomHeartbeatCode); 
+	MySUI.setUserPresenceHeartbeat(CustomHeartbeatCode);
 	// heartbeat_function_period_ms set in main settings header
 	MySUI.setUserPresenceHeartbeatPeriod(heartbeat_function_period_ms);
-	
-	// Add variable state tracking 
-	
+
+	// Add variable state tracking
+
 	// a few error messages we hopefully won't need
-	
+
 	SUI_FLASHSTRING CouldntCreateMenuErr = F("Could not create menu?");
 	SUI_FLASHSTRING CouldntAddItemErr = F("Could not add item?");
-	
+
 	// get top level menu, to start adding items
 	SUI::Menu * topMenu = MySUI.topLevelMenu();
 	if (! topMenu ) {
@@ -63,52 +63,60 @@ bool SetupSerialUI() {
 		MySUI.returnError(F("Very badness in sEriALui!1"));
 		return false;
 	}
-	
-	
-	
+
+
+
 	/* *** Main *** */
 
-	
+
 	// create all our sub-menus
 	SUI::Menu * submen1 = topMenu->subMenu(
 		SUI_STR("colors"),
 		SUI_STR("Change to solids colors"),
 		2);
-	if (! submen1 ) { 
+	if (! submen1 ) {
 		DIE_HORRIBLY(CouldntCreateMenuErr);
 	}
-	
+
 	SUI::Menu * submen2 = topMenu->subMenu(
 		SUI_STR("patterns"),
 		SUI_STR("Change LED patterns"),
 		2);
-	if (! submen2 ) { 
+	if (! submen2 ) {
 		DIE_HORRIBLY(CouldntCreateMenuErr);
 	}
-	
+
 	SUI::Menu * submen3 = topMenu->subMenu(
 		SUI_STR("i2c"),
 		SUI_STR("SAO Communications"),
 		2);
-	if (! submen3 ) { 
+	if (! submen3 ) {
 		DIE_HORRIBLY(CouldntCreateMenuErr);
 	}
-	
+
 	SUI::Menu * submen4 = topMenu->subMenu(
+		SUI_STR("power"),
+		SUI_STR("Power Savings"),
+		2);
+	if (! submen4 ) {
+		DIE_HORRIBLY(CouldntCreateMenuErr);
+	}
+
+	SUI::Menu * submen5 = topMenu->subMenu(
 		SUI_STR("debug"),
 		SUI_STR("Debug"),
 		2);
-	if (! submen4 ) { 
+	if (! submen5 ) {
 		DIE_HORRIBLY(CouldntCreateMenuErr);
 	}
-	
+
 
 
 	// add everything to the right sub-menu
 
 	/* *** Main Menu -> Colors *** */
 
-	
+
 	if( ! submen1->addCommand(
 		SUI_STR("pink"),
 		NEO::ChangePink,
@@ -116,7 +124,7 @@ bool SetupSerialUI() {
 		MySUI.returnError(CouldntAddItemErr);
 		return false;
 	}
-	
+
 	if( ! submen1->addCommand(
 		SUI_STR("red"),
 		NEO::ChangeRed,
@@ -124,7 +132,7 @@ bool SetupSerialUI() {
 		MySUI.returnError(CouldntAddItemErr);
 		return false;
 	}
-	
+
 	if( ! submen1->addCommand(
 		SUI_STR("green"),
 		NEO::ChangeGreen,
@@ -132,7 +140,7 @@ bool SetupSerialUI() {
 		MySUI.returnError(CouldntAddItemErr);
 		return false;
 	}
-	
+
 	if( ! submen1->addCommand(
 		SUI_STR("blue"),
 		NEO::ChangeBlue,
@@ -140,7 +148,7 @@ bool SetupSerialUI() {
 		MySUI.returnError(CouldntAddItemErr);
 		return false;
 	}
-	
+
 	/* *** Main Menu -> Patterns *** */
 
 	if( ! submen2->addCommand(
@@ -150,7 +158,7 @@ bool SetupSerialUI() {
 		MySUI.returnError(CouldntAddItemErr);
 		return false;
 	}
-	
+
 	if( ! submen2->addCommand(
 		SUI_STR("confetti"),
 		NEO::ChangeConfetti,
@@ -158,7 +166,7 @@ bool SetupSerialUI() {
 		MySUI.returnError(CouldntAddItemErr);
 		return false;
 	}
-	
+
 	if( ! submen2->addCommand(
 		SUI_STR("popo"),
 		NEO::ChangePopo,
@@ -166,7 +174,7 @@ bool SetupSerialUI() {
 		MySUI.returnError(CouldntAddItemErr);
 		return false;
 	}
-	
+
 	if( ! submen2->addCommand(
 		SUI_STR("rainbow"),
 		NEO::ChangeRainbow,
@@ -174,7 +182,7 @@ bool SetupSerialUI() {
 		MySUI.returnError(CouldntAddItemErr);
 		return false;
 	}
-	
+
 	if( ! submen2->addCommand(
 		SUI_STR("strobe"),
 		NEO::ChangeStrobe,
@@ -182,7 +190,7 @@ bool SetupSerialUI() {
 		MySUI.returnError(CouldntAddItemErr);
 		return false;
 	}
-	
+
 	if( ! submen2->addCommand(
 		SUI_STR("surge"),
 		NEO::ChangeSurge,
@@ -190,9 +198,9 @@ bool SetupSerialUI() {
 		MySUI.returnError(CouldntAddItemErr);
 		return false;
 	}
-	
+
 	/* *** Main Menu -> I2C *** */
-	
+
 	if( ! submen3->addCommand(
 		SUI_STR("scan"),
 		I2C::Scan,
@@ -200,10 +208,28 @@ bool SetupSerialUI() {
 		MySUI.returnError(CouldntAddItemErr);
 		return false;
 	}
-	
-	/* *** Main Menu -> Debug *** */
-	
+
+	/* *** Main Menu -> power *** */
+
 	if( ! submen4->addCommand(
+		SUI_STR("brightness"),
+		NEO::ToggleBrightness,
+		SUI_STR("Toggle LED Brightness Level"))) {
+		MySUI.returnError(CouldntAddItemErr);
+		return false;
+	}
+
+	if( ! submen4->addCommand(
+		SUI_STR("print"),
+		NEO::PrintBrightness,
+		SUI_STR("Print Power Configuration"))) {
+		MySUI.returnError(CouldntAddItemErr);
+		return false;
+	}
+
+	/* *** Main Menu -> Debug *** */
+
+	if( ! submen5->addCommand(
 		SUI_STR("eeprom"),
 		CFG::PrintEEPROM,
 		SUI_STR("Print EEPROM settings"))) {
@@ -212,6 +238,6 @@ bool SetupSerialUI() {
 	}
 
 	return true;
-	
+
 }
 

@@ -15,6 +15,8 @@ namespace CFG {
 	bool UpdatePatternID(uint8_t);
 	uint8_t ReadMode();
 	bool UpdateMode(uint8_t);
+	uint8_t ReadBrightness();
+	bool UpdateBrightness(uint8_t);
 	void PrintEEPROM(void);
 
 }

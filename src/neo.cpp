@@ -18,6 +18,8 @@ namespace NEO {
 	uint8_t patternPosition = 0;
 	unsigned long previousPatternMillis = 0;
 
+	uint8_t brightnessLow = 64;
+	uint8_t brightnessHigh = 255;
 
 	// Colors must be incrementing unique values
 	// COLORS_NR_ITEMS is always the last value in the list
@@ -60,6 +62,24 @@ namespace NEO {
 		for( uint16_t j = 0; j < NUM_LEDS; j++) {
 			leds[j].nscale8(value);
 		}
+	}
+
+	void ToggleBrightness() {
+		if(CFG::ReadBrightness() == brightnessHigh) {
+			FastLED.setBrightness( brightnessLow );
+			CFG::UpdateBrightness( brightnessLow );
+		} else {
+			FastLED.setBrightness( brightnessHigh );
+			CFG::UpdateBrightness( brightnessHigh );
+		}
+		if ( curMode == MODE_COLORS ) {
+			setColor(curColor);
+		}
+	}
+
+	void PrintBrightness() {
+		MySUI.print("Brightness: ");
+		MySUI.println(FastLED.getBrightness());
 	}
 
 	uint8_t checkTime ( uint16_t duration ) {
