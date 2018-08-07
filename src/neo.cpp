@@ -121,9 +121,8 @@ namespace NEO {
 	}
 
 	/* *** Pattern: Chase *** */
-	void chasePattern() {
+	void initChasePattern() {
 		curPattern = CHASE;
-		patternPosition = 0;
 	}
 
 	void ChangeChase() {
@@ -144,9 +143,8 @@ namespace NEO {
 	}
 
 	/* *** Pattern: Confetti *** */
-	void confettiPattern() {
+	void initConfettiPattern() {
 		curPattern = CONFETTI;
-		patternPosition = 0;
 	}
 
 	void ChangeConfetti() {
@@ -163,9 +161,8 @@ namespace NEO {
 	}
 
 	/* *** Pattern: Popo *** */
-	void popoPattern() {
+	void initPopoPattern() {
 		curPattern = POPO;
-		patternPosition = 0;
 	}
 
 	void ChangePopo() {
@@ -196,9 +193,8 @@ namespace NEO {
 	}
 
 	/* *** Pattern: Rainbow *** */
-	void rainbowPattern() {
+	void initRainbowPattern() {
 		curPattern = RAINBOW;
-		patternPosition = 0;
 	}
 
 	void ChangeRainbow() {
@@ -213,9 +209,8 @@ namespace NEO {
 	}
 
 	/* *** Pattern: Strobe *** */
-	void strobePattern() {
+	void initStrobePattern() {
 		curPattern = STROBE;
-		patternPosition = 0;
 	}
 
 	void ChangeStrobe() {
@@ -240,9 +235,8 @@ namespace NEO {
 	}
 
 	/* *** Pattern: Surge *** */
-	void surgePattern() {
+	void initSurgePattern() {
 		curPattern = SURGE;
-		patternPosition = 0;
 
 		for( uint16_t i = 0; i<NUM_LEDS; i++){
 			leds[i] = CRGB::Blue;
@@ -357,25 +351,26 @@ namespace NEO {
 			curPattern = p;
 		}
 
+		patternPosition = 0;
 		CFG::UpdatePatternID(curPattern);
 		switch (curPattern) {
 			case CHASE:
-				chasePattern();
+				initChasePattern();
 				break;
 			case CONFETTI:
-				confettiPattern();
+				initConfettiPattern();
 				break;
 			case POPO:
-				popoPattern();
+				initPopoPattern();
 				break;
 			case RAINBOW:
-				rainbowPattern();
+				initRainbowPattern();
 				break;
 			case STROBE:
-				strobePattern();
+				initStrobePattern();
 				break;
 			case SURGE:
-				surgePattern();
+				initSurgePattern();
 				break;
 		}
 	}

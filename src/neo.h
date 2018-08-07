@@ -18,13 +18,6 @@ namespace NEO {
 	void ChangeGreen();
 	void ChangeBlue();
 
-	void chasePattern();
-	void confettiPattern();
-	void popoPattern();
-	void rainbowPattern();
-	void strobePattern();
-	void surgePattern();
-
 	void ChangeChase();
 	void ChangeConfetti();
 	void ChangePopo();
