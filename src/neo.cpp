@@ -484,12 +484,14 @@ namespace NEO {
 	void switchMode() {
 		if ( curMode == MODE_COLORS ) {
 			setMode(MODE_PATTERNS);
+			setPattern(CFG::ReadPatternID());
 		} else {
 			setMode(MODE_COLORS);
+			setColor(CFG::ReadColorID());
 		}
 	}
 
-	void cycleMode() {
+	void cycleCurrentMode() {
 		if ( curMode == MODE_COLORS ) {
 			cycleColor();
 		} else {

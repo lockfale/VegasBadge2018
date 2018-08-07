@@ -42,7 +42,7 @@ namespace NEO {
 	void setMode(uint8_t);
 	void PrintMode();
 	void switchMode();
-	void cycleMode();
+	void cycleCurrentMode();
 
 }
 
