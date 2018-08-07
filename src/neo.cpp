@@ -351,7 +351,10 @@ namespace NEO {
 			curColor = c;
 		}
 
-		CFG::UpdateColorID(curColor);
+		if ( curColor > NO_COLOR ) {
+			CFG::UpdateColorID(curColor);
+		}
+
 		switch (curColor) {
 			case NO_COLOR:
 				noColor();
@@ -392,7 +395,11 @@ namespace NEO {
 	}
 
 	void cycleColor() {
-		curColor += 1;
+		if ( curColor == NO_COLOR ) {
+			curColor = CFG::ReadColorID();
+		} else {
+			curColor += 1;
+		}
 		setColor(curColor);
 	}
 
