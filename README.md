@@ -44,7 +44,8 @@ To disconnect from the serial port in screen session:
 
 ## Menu System
 
-The badges uses the SerialUI library for a menu system on the serial port.
+The badges uses the SerialUI library (https://github.com/psychogenic/SerialUI)
+for a menu system on the serial port. 
 
 The following is the current menu system:
 
