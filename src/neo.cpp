@@ -281,11 +281,7 @@ namespace NEO {
 	/* *** Pattern: Surge *** */
 	void initSurgePattern() {
 		curPattern = SURGE;
-
-		for( uint16_t i = 0; i<NUM_LEDS; i++){
-			leds[i] = CRGB::Blue;
-		}
-		FastLED.show();
+		fillAll(CRGB::Blue);
 	}
 
 	void ChangeSurge() {
