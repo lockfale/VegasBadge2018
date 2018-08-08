@@ -70,43 +70,43 @@ bool SetupSerialUI() {
 
 
 	// create all our sub-menus
-	SUI::Menu * submen1 = topMenu->subMenu(
+	SUI::Menu * smcolors = topMenu->subMenu(
 		SUI_STR("colors"),
 		SUI_STR("Change to solids colors"),
 		2);
-	if (! submen1 ) {
+	if (! smcolors ) {
 		DIE_HORRIBLY(CouldntCreateMenuErr);
 	}
 
-	SUI::Menu * submen2 = topMenu->subMenu(
+	SUI::Menu * smpatterns = topMenu->subMenu(
 		SUI_STR("patterns"),
 		SUI_STR("Change LED patterns"),
 		2);
-	if (! submen2 ) {
+	if (! smpatterns ) {
 		DIE_HORRIBLY(CouldntCreateMenuErr);
 	}
 
-	SUI::Menu * submen3 = topMenu->subMenu(
+	SUI::Menu * smi2c = topMenu->subMenu(
 		SUI_STR("i2c"),
 		SUI_STR("SAO Communications"),
 		2);
-	if (! submen3 ) {
+	if (! smi2c ) {
 		DIE_HORRIBLY(CouldntCreateMenuErr);
 	}
 
-	SUI::Menu * submen4 = topMenu->subMenu(
+	SUI::Menu * smpower = topMenu->subMenu(
 		SUI_STR("power"),
 		SUI_STR("Power Savings"),
 		2);
-	if (! submen4 ) {
+	if (! smpower ) {
 		DIE_HORRIBLY(CouldntCreateMenuErr);
 	}
 
-	SUI::Menu * submen5 = topMenu->subMenu(
+	SUI::Menu * smdebug = topMenu->subMenu(
 		SUI_STR("debug"),
 		SUI_STR("Debug"),
 		2);
-	if (! submen5 ) {
+	if (! smdebug ) {
 		DIE_HORRIBLY(CouldntCreateMenuErr);
 	}
 
@@ -117,7 +117,7 @@ bool SetupSerialUI() {
 	/* *** Main Menu -> Colors *** */
 
 
-	if( ! submen1->addCommand(
+	if( ! smcolors->addCommand(
 		SUI_STR("pink"),
 		NEO::ChangePink,
 		SUI_STR("Make the LEDs pink..."))) {
@@ -125,7 +125,7 @@ bool SetupSerialUI() {
 		return false;
 	}
 
-	if( ! submen1->addCommand(
+	if( ! smcolors->addCommand(
 		SUI_STR("red"),
 		NEO::ChangeRed,
 		SUI_STR("Make the LEDs red..."))) {
@@ -133,7 +133,7 @@ bool SetupSerialUI() {
 		return false;
 	}
 
-	if( ! submen1->addCommand(
+	if( ! smcolors->addCommand(
 		SUI_STR("green"),
 		NEO::ChangeGreen,
 		SUI_STR("Make the LEDs green..."))) {
@@ -141,7 +141,7 @@ bool SetupSerialUI() {
 		return false;
 	}
 
-	if( ! submen1->addCommand(
+	if( ! smcolors->addCommand(
 		SUI_STR("blue"),
 		NEO::ChangeBlue,
 		SUI_STR("Make the LEDs blue..."))) {
@@ -151,7 +151,7 @@ bool SetupSerialUI() {
 
 	/* *** Main Menu -> Patterns *** */
 
-	if( ! submen2->addCommand(
+	if( ! smpatterns->addCommand(
 		SUI_STR("chase"),
 		NEO::ChangeChase,
 		SUI_STR("Chase the LEDs..."))) {
@@ -159,7 +159,7 @@ bool SetupSerialUI() {
 		return false;
 	}
 
-	if( ! submen2->addCommand(
+	if( ! smpatterns->addCommand(
 		SUI_STR("confetti"),
 		NEO::ChangeConfetti,
 		SUI_STR("Party!!"))) {
@@ -167,7 +167,7 @@ bool SetupSerialUI() {
 		return false;
 	}
 
-	if( ! submen2->addCommand(
+	if( ! smpatterns->addCommand(
 		SUI_STR("popo"),
 		NEO::ChangePopo,
 		SUI_STR("Popo coming..."))) {
@@ -175,7 +175,7 @@ bool SetupSerialUI() {
 		return false;
 	}
 
-	if( ! submen2->addCommand(
+	if( ! smpatterns->addCommand(
 		SUI_STR("rainbow"),
 		NEO::ChangeRainbow,
 		SUI_STR("Taste the rainbow"))) {
@@ -183,7 +183,7 @@ bool SetupSerialUI() {
 		return false;
 	}
 
-	if( ! submen2->addCommand(
+	if( ! smpatterns->addCommand(
 		SUI_STR("strobe"),
 		NEO::ChangeStrobe,
 		SUI_STR("Caution, may cause seizures!!"))) {
@@ -191,7 +191,7 @@ bool SetupSerialUI() {
 		return false;
 	}
 
-	if( ! submen2->addCommand(
+	if( ! smpatterns->addCommand(
 		SUI_STR("surge"),
 		NEO::ChangeSurge,
 		SUI_STR("Surging blue..."))) {
@@ -199,7 +199,7 @@ bool SetupSerialUI() {
 		return false;
 	}
 
-	if( ! submen2->addCommand(
+	if( ! smpatterns->addCommand(
 		SUI_STR("knight"),
 		NEO::ChangeKnightRider,
 		SUI_STR("Knight Rider"))) {
@@ -209,7 +209,7 @@ bool SetupSerialUI() {
 
 	/* *** Main Menu -> I2C *** */
 
-	if( ! submen3->addCommand(
+	if( ! smi2c->addCommand(
 		SUI_STR("scan"),
 		I2C::Scan,
 		SUI_STR("Scan for SAOs"))) {
@@ -219,7 +219,7 @@ bool SetupSerialUI() {
 
 	/* *** Main Menu -> power *** */
 
-	if( ! submen4->addCommand(
+	if( ! smpower->addCommand(
 		SUI_STR("brightness"),
 		NEO::ToggleBrightness,
 		SUI_STR("Toggle LED Brightness Level"))) {
@@ -227,7 +227,7 @@ bool SetupSerialUI() {
 		return false;
 	}
 
-	if( ! submen4->addCommand(
+	if( ! smpower->addCommand(
 		SUI_STR("print"),
 		NEO::PrintBrightness,
 		SUI_STR("Print Power Configuration"))) {
@@ -237,7 +237,7 @@ bool SetupSerialUI() {
 
 	/* *** Main Menu -> Debug *** */
 
-	if( ! submen5->addCommand(
+	if( ! smdebug->addCommand(
 		SUI_STR("eeprom"),
 		CFG::PrintEEPROM,
 		SUI_STR("Print EEPROM settings"))) {
