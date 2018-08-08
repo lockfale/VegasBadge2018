@@ -79,6 +79,7 @@ TOP
       * rainbow             Taste the rainbow 
       * strobe              Caution, may cause seizures!! 
       * surge               Surging blue...
+      * knight              Knight Rider
    + i2c                 SAO Communications 
       * scan                Scan for SAOs
    + power               Power Savings 

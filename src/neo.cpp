@@ -41,7 +41,8 @@ namespace NEO {
 	const uint8_t RAINBOW = 4;
 	const uint8_t STROBE = 5;
 	const uint8_t SURGE = 6;
-	const uint8_t PATTERNS_NR_ITEMS = 7;
+	const uint8_t KNIGHT = 7;
+	const uint8_t PATTERNS_NR_ITEMS = 8;
 
 	uint8_t curPattern = 0;
 
@@ -111,56 +112,52 @@ namespace NEO {
 		}
 	}
 
-	void TurnAllOff() {
-		curMode = NO_MODE;
+	void fillAll(CRGB color){
 		for( uint16_t i = 0; i<NUM_LEDS; i++){
-			leds[i] = CRGB::Black;
+			leds[i] = color;
 		}
 		FastLED.show();
 	}
 
+	void TurnAllOff() {
+		curMode = NO_MODE;
+		fillAll(CRGB::Black);
+	}
+
+	/* *** Color: Pink *** */
 	void pinkColor() {
 		curColor = PINK;
-		for( uint16_t i = 0; i<NUM_LEDS; i++){
-			leds[i] = CRGB(0xff, 0x14, 0x93);
-		}
-		FastLED.show();
+		fillAll(CRGB(0xff, 0x14, 0x93));
 	}
 
 	void ChangePink() {
 		setColor(PINK);
 	}
 
+	/* *** Color: Red *** */
 	void redColor() {
 		curColor = RED;
-		for( uint16_t i = 0; i<NUM_LEDS; i++){
-			leds[i] = CRGB::Red;
-		}
-		FastLED.show();
+		fillAll(CRGB::Red);
 	}
 
 	void ChangeRed() {
 		setColor(RED);
 	}
 
+	/* *** Color: Green *** */
 	void greenColor() {
 		curColor = GREEN;
-		for( uint16_t i = 0; i<NUM_LEDS; i++){
-			leds[i] = CRGB::Green;
-		}
-		FastLED.show();
+		fillAll(CRGB::Green);
 	}
 
 	void ChangeGreen() {
 		setColor(GREEN);
 	}
 
+	/* *** Color: Blue *** */
 	void blueColor() {
 		curColor = BLUE;
-		for( uint16_t i = 0; i<NUM_LEDS; i++){
-			leds[i] = CRGB::Blue;
-		}
-		FastLED.show();
+		fillAll(CRGB::Blue);
 	}
 
 	void ChangeBlue() {
@@ -313,6 +310,38 @@ namespace NEO {
 		}
 	}
 
+	/* *** Pattern: Knight Rider *** */
+	void initKnightRiderPattern() {
+		curPattern = KNIGHT;
+	}
+
+	void ChangeKnightRider() {
+		setPattern(KNIGHT);
+	}
+
+	void knightRiderPatternUpdate() {
+		if (checkTime(150)) {
+			if (patternPosition == 0) { 
+				leds[0] = CRGB::Red;
+				leds[5] = CRGB::Red;
+			} else if (patternPosition == 1 || patternPosition == 3) {
+				leds[1] = CRGB::Red;
+				leds[4] = CRGB::Red;
+			} else if (patternPosition == 2) {
+				leds[2] = CRGB::Red;
+				leds[3] = CRGB::Red;
+			}
+			leds[patternPosition] = CRGB::Red;
+			FastLED.show();
+			fadeAll(90);
+			if (patternPosition < 3) {
+				patternPosition++;
+			} else {
+				patternPosition = 0;
+			}
+		}
+	}
+
 	/* *** Update function *** */
 	void UpdateNeo() {
 		if ( curMode == MODE_PATTERNS ) {
@@ -337,6 +366,9 @@ namespace NEO {
 					break;
 				case SURGE:
 					surgePatternUpdate();
+					break;
+				case KNIGHT:
+					knightRiderPatternUpdate();
 					break;
 			}
 		}
@@ -424,6 +456,9 @@ namespace NEO {
 			case SURGE:
 				initSurgePattern();
 				break;
+			case KNIGHT:
+				initKnightRiderPattern();
+				break;
 		}
 	}
 
@@ -449,6 +484,9 @@ namespace NEO {
 				break;
 			case SURGE:
 				MySUI.println("Surge");
+				break;
+			case KNIGHT:
+				MySUI.println("Knight Rider");
 				break;
 		}
 	}

@@ -30,6 +30,7 @@ namespace NEO {
 	void ChangeRainbow();
 	void ChangeStrobe();
 	void ChangeSurge();
+	void ChangeKnightRider();
 
 	void UpdateNeo();
 

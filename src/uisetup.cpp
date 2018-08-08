@@ -199,6 +199,14 @@ bool SetupSerialUI() {
 		return false;
 	}
 
+	if( ! submen2->addCommand(
+		SUI_STR("knight"),
+		NEO::ChangeKnightRider,
+		SUI_STR("Knight Rider"))) {
+		MySUI.returnError(CouldntAddItemErr);
+		return false;
+	}
+
 	/* *** Main Menu -> I2C *** */
 
 	if( ! submen3->addCommand(
