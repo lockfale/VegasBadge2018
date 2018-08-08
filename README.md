@@ -42,6 +42,22 @@ To disconnect from the serial port in screen session:
     ^-a k Y
 ```
 
+## Modes and Buttons
+
+There are two modes that the badge can be in:
+
+* Color mode: Display a solid color with no change.
+* Pattern mode: Displays a repeating pattern.
+
+There are two buttons on the left side:
+
+* SW1: Resets the CPU. There might be up to an 8 second wait.
+* SW2: Changes different things based on the type of click:
+  * Single Click: Cycles thru the different options within the current mode.
+  * Double Click: Switches between modes.
+  * Long Press: Shuts board down. Click SW1 to start badge back up.
+
+
 ## Menu System
 
 The badges uses the SerialUI library (https://github.com/psychogenic/SerialUI)

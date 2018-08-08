@@ -1,3 +1,4 @@
+#include <avr/sleep.h>
 #include <PinButton.h>
 #include "badge.h"
 #include "bbutton.h"
@@ -12,6 +13,18 @@
 namespace Button {
 
 	PinButton myButton(5);
+
+	void sleepNow () {
+		MySUI.println(F("[+] Going to sleep"));
+		NEO::TurnAllOff();
+
+		delay(1000);
+
+		set_sleep_mode (SLEEP_MODE_PWR_DOWN);
+		sleep_enable ();
+		sleep_mode();
+
+	}
 
 	void UpdateButton() {
 		// Read hardware pin, convert to click events
@@ -32,7 +45,8 @@ namespace Button {
 		if (myButton.isLongClick()) {
 			MySUI.println(F("Detected Long Press..."));
 			MySUI.println(F("[+] Turning off LEDS"));
-			NEO::TurnAllOff();
+
+			sleepNow();
 		}
 
 	}
