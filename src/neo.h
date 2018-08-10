@@ -27,6 +27,7 @@ namespace NEO {
 	void ChangeStrobe();
 	void ChangeSurge();
 	void ChangeKnightRider();
+	void ChangeFire();
 
 	void UpdateNeo();
 

@@ -214,6 +214,14 @@ bool SetupSerialUI() {
 		return false;
 	}
 
+	if( ! smpatterns->addCommand(
+		SUI_STR("fire"),
+		NEO::ChangeFire,
+		SUI_STR("Fire.. Fire!!"))) {
+		MySUI.returnError(CouldntAddItemErr);
+		return false;
+	}
+
 	/* *** Main Menu -> I2C *** */
 
 	if( ! smi2c->addCommand(

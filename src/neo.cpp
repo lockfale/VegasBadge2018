@@ -12,7 +12,7 @@
 namespace NEO {
 
 	const uint16_t DATA_PIN = 6;
-	const uint16_t NUM_LEDS = 6;
+	const uint8_t NUM_LEDS = 6;
 	CRGB leds[NUM_LEDS];
 	uint8_t gHue = 0;
 	uint8_t patternPosition = 0;
@@ -43,7 +43,8 @@ namespace NEO {
 	const uint8_t STROBE = 5;
 	const uint8_t SURGE = 6;
 	const uint8_t KNIGHT = 7;
-	const uint8_t PATTERNS_NR_ITEMS = 8;
+	const uint8_t FIRE = 8;
+	const uint8_t PATTERNS_NR_ITEMS = 9;
 
 	uint8_t curPattern = 0;
 
@@ -108,7 +109,7 @@ namespace NEO {
 	}
 
 	void fadeAll(uint8_t value) {
-		for( uint16_t j = 0; j < NUM_LEDS; j++) {
+		for( uint8_t j = 0; j < NUM_LEDS; j++) {
 			leds[j].nscale8(value);
 		}
 	}
@@ -124,7 +125,7 @@ namespace NEO {
 	}
 
 	void fillAll(CRGB color){
-		for( uint16_t i = 0; i<NUM_LEDS; i++){
+		for( uint8_t i = 0; i<NUM_LEDS; i++){
 			leds[i] = color;
 		}
 		FastLED.show();
@@ -169,7 +170,7 @@ namespace NEO {
 	void setColor(uint8_t c) {
 		CRGB colorRGB;
 
-		setColorMode();
+		setMode(MODE_COLORS);
 		setBrightness();
 
 		if ( c >= COLORS_NR_ITEMS ) {
@@ -266,7 +267,7 @@ namespace NEO {
 
 	void confettiPatternUpdate() {
 		if (checkTime(50)) {
-			uint16_t pos = random16(NUM_LEDS);
+			uint8_t pos = random8(NUM_LEDS);
 			leds[pos] = CHSV(gHue + random8(64), 200, 255);
 			FastLED.show();
 			fadeAll(80);
@@ -280,7 +281,7 @@ namespace NEO {
 
 	void popoPatternUpdate() {
 		if (checkTime(20)) {
-			if (patternPosition == 0 || patternPosition == 3) { 
+			if (patternPosition == 0 || patternPosition == 3) {
 				leds[0] = CRGB::Red;
 				leds[5] = CRGB::Red;
 				leds[1] = CRGB::Blue;
@@ -320,8 +321,8 @@ namespace NEO {
 
 	void strobePatternUpdate() {
 		if (checkTime(50)) {
-			if (patternPosition < 20 && patternPosition % 2 == 0) { 
-				for( uint16_t i = 0; i<NUM_LEDS; i++){
+			if (patternPosition < 20 && patternPosition % 2 == 0) {
+				for( uint8_t i = 0; i<NUM_LEDS; i++){
 					leds[i] = CRGB(0xff, 0xff, 0xff);
 				}
 			}
@@ -342,8 +343,8 @@ namespace NEO {
 
 	void surgePatternUpdate() {
 		if (checkTime(100)) {
-			for( uint16_t j = 0; j < NUM_LEDS; j++) {
-				if (patternPosition < 10) { 
+			for( uint8_t j = 0; j < NUM_LEDS; j++) {
+				if (patternPosition < 10) {
 					leds[j].nscale8(200);
 				} else {
 					leds[j] += leds[j].scale8(250);
@@ -365,7 +366,7 @@ namespace NEO {
 
 	void knightRiderPatternUpdate() {
 		if (checkTime(150)) {
-			if (patternPosition == 0) { 
+			if (patternPosition == 0) {
 				leds[0] = CRGB::Red;
 				leds[5] = CRGB::Red;
 			} else if (patternPosition == 1 || patternPosition == 3) {
@@ -386,8 +387,51 @@ namespace NEO {
 		}
 	}
 
+	/* *** Pattern: Fire *** */
+	// COOLING: How much does the air cool as it rises?
+	// Less cooling = taller flames.  More cooling = shorter flames.
+	// Default 55, suggested range 20-100
+	#define COOLING  20
+
+	// SPARKING: What chance (out of 255) is there that a new spark will be lit?
+	// Higher chance = more roaring fire.  Lower chance = more flickery fire.
+	// Default 120, suggested range 50-200.
+	#define SPARKING 170
+	void ChangeFire() {
+		setPattern(FIRE);
+	}
+
+	void firePatternUpdate() {
+		// Array of temperature readings at each simulation cell
+		static byte heat[NUM_LEDS];
+
+		if (checkTime(5)) {
+			// Step 1.  Cool down every cell a little
+			for( uint8_t i = 0; i < NUM_LEDS; i++) {
+				heat[i] = qsub8( heat[i],  random8(0, ((COOLING * 10) / NUM_LEDS) + 2));
+			}
+
+			// Step 2.  Heat from each cell drifts 'up' and diffuses a little
+			for( uint8_t k= NUM_LEDS - 3; k > 0; k--) {
+				heat[k] = (heat[k - 1] + heat[k - 2] + heat[k - 2] ) / 3;
+			}
+
+			// Step 3.  Randomly ignite new 'sparks' of heat near the bottom
+			if( random8() < SPARKING ) {
+				int y = random8(7);
+				heat[y] = qadd8( heat[y], random8(160,255) );
+			}
+
+			// Step 4.  Map from heat cells to LED colors
+			for( uint8_t j = 0; j < NUM_LEDS; j++) {
+				leds[j] = HeatColor( heat[j]);
+			}
+			FastLED.show();
+		}
+	}
+
 	void setPattern(uint8_t p) {
-		setPatternMode();
+		setMode(MODE_PATTERNS);
 		setBrightness();
 
 		if ( p >= PATTERNS_NR_ITEMS ) {
@@ -396,6 +440,8 @@ namespace NEO {
 			curPattern = p;
 		}
 
+		MySUI.print("Set Pattern: ");
+		MySUI.println(curPattern);
 		patternPosition = 0;
 		CFG::UpdatePatternID(curPattern);
 		switch (curPattern) {
@@ -420,6 +466,9 @@ namespace NEO {
 				break;
 			case KNIGHT:
 				curPattern = KNIGHT;
+				break;
+			case FIRE:
+				curPattern = FIRE;
 				break;
 		}
 	}
@@ -452,6 +501,9 @@ namespace NEO {
 				case KNIGHT:
 					knightRiderPatternUpdate();
 					break;
+				case FIRE:
+					firePatternUpdate();
+					break;
 			}
 		}
 	}
@@ -481,6 +533,9 @@ namespace NEO {
 				break;
 			case KNIGHT:
 				MySUI.println("Knight Rider");
+				break;
+			case FIRE:
+				MySUI.println("Fire");
 				break;
 		}
 	}

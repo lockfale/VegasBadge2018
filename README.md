@@ -81,6 +81,7 @@ TOP
       * strobe              Caution, may cause seizures!!
       * surge               Surging blue...
       * knight              Knight Rider
+      * fire                Fire.. Fire!!!
    + i2c                 SAO Communications
       * scan                Scan for SAOs
    + power               Power Savings
