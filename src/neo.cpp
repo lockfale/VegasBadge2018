@@ -124,45 +124,96 @@ namespace NEO {
 		fillAll(CRGB::Black);
 	}
 
-	/* *** Color: Pink *** */
-	void pinkColor() {
-		curColor = PINK;
-		fillAll(CRGB(0xff, 0x14, 0x93));
-	}
+	/******************************************************
+	 *
+	 * Colors
+	 *
+	 ******************************************************/
 
+	/* *** Color: Pink *** */
 	void ChangePink() {
 		setColor(PINK);
 	}
 
 	/* *** Color: Red *** */
-	void redColor() {
-		curColor = RED;
-		fillAll(CRGB::Red);
-	}
-
 	void ChangeRed() {
 		setColor(RED);
 	}
 
 	/* *** Color: Green *** */
-	void greenColor() {
-		curColor = GREEN;
-		fillAll(CRGB::Green);
-	}
-
 	void ChangeGreen() {
 		setColor(GREEN);
 	}
 
 	/* *** Color: Blue *** */
-	void blueColor() {
-		curColor = BLUE;
-		fillAll(CRGB::Blue);
-	}
-
 	void ChangeBlue() {
 		setColor(BLUE);
 	}
+
+	void setColor(uint8_t c) {
+		CRGB colorRGB;
+		setColorMode();
+		if ( c >= COLORS_NR_ITEMS ) {
+			curColor = 1;
+		} else {
+			curColor = c;
+		}
+
+		if ( curColor > NO_COLOR ) {
+			CFG::UpdateColorID(curColor);
+		}
+
+		switch (curColor) {
+			case PINK:
+				curColor = PINK;
+				colorRGB = CRGB(0xff, 0x14, 0x93);
+				break;
+			case RED:
+				curColor = RED;
+				colorRGB = CRGB::Red;
+				break;
+			case GREEN:
+				curColor = GREEN;
+				colorRGB = CRGB::Green;
+				break;
+			case BLUE:
+				curColor = BLUE;
+				colorRGB = CRGB::Blue;
+				break;
+		}
+		fillAll(colorRGB);
+	}
+
+	void PrintColor() {
+		uint8_t c = CFG::ReadColorID();
+
+		MySUI.print("Color: ");
+		switch (c) {
+			case PINK:
+				MySUI.println("Pink");
+				break;
+			case RED:
+				MySUI.println("Red");
+				break;
+			case GREEN:
+				MySUI.println("Green");
+				break;
+			case BLUE:
+				MySUI.println("Blue");
+				break;
+		}
+	}
+
+	void cycleColor() {
+		curColor += 1;
+		setColor(curColor);
+	}
+
+	/******************************************************
+	 *
+	 * Patterns
+	 *
+	 ******************************************************/
 
 	/* *** Pattern: Chase *** */
 	void initChasePattern() {
@@ -368,59 +419,6 @@ namespace NEO {
 					break;
 			}
 		}
-	}
-
-	void setColor(uint8_t c) {
-		setColorMode();
-		if ( c >= COLORS_NR_ITEMS ) {
-			curColor = 1;
-		} else {
-			curColor = c;
-		}
-
-		if ( curColor > NO_COLOR ) {
-			CFG::UpdateColorID(curColor);
-		}
-
-		switch (curColor) {
-			case PINK:
-				pinkColor();
-				break;
-			case RED:
-				redColor();
-				break;
-			case GREEN:
-				greenColor();
-				break;
-			case BLUE:
-				blueColor();
-				break;
-		}
-	}
-
-	void PrintColor() {
-		uint8_t c = CFG::ReadColorID();
-
-		MySUI.print("Color: ");
-		switch (c) {
-			case PINK:
-				MySUI.println("Pink");
-				break;
-			case RED:
-				MySUI.println("Red");
-				break;
-			case GREEN:
-				MySUI.println("Green");
-				break;
-			case BLUE:
-				MySUI.println("Blue");
-				break;
-		}
-	}
-
-	void cycleColor() {
-		curColor += 1;
-		setColor(curColor);
 	}
 
 	void setPattern(uint8_t p) {
