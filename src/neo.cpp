@@ -242,10 +242,6 @@ namespace NEO {
 	 ******************************************************/
 
 	/* *** Pattern: Chase *** */
-	void initChasePattern() {
-		curPattern = CHASE;
-	}
-
 	void ChangeChase() {
 		setPattern(CHASE);
 	}
@@ -264,10 +260,6 @@ namespace NEO {
 	}
 
 	/* *** Pattern: Confetti *** */
-	void initConfettiPattern() {
-		curPattern = CONFETTI;
-	}
-
 	void ChangeConfetti() {
 		setPattern(CONFETTI);
 	}
@@ -282,10 +274,6 @@ namespace NEO {
 	}
 
 	/* *** Pattern: Popo *** */
-	void initPopoPattern() {
-		curPattern = POPO;
-	}
-
 	void ChangePopo() {
 		setPattern(POPO);
 	}
@@ -314,10 +302,6 @@ namespace NEO {
 	}
 
 	/* *** Pattern: Rainbow *** */
-	void initRainbowPattern() {
-		curPattern = RAINBOW;
-	}
-
 	void ChangeRainbow() {
 		setPattern(RAINBOW);
 	}
@@ -330,10 +314,6 @@ namespace NEO {
 	}
 
 	/* *** Pattern: Strobe *** */
-	void initStrobePattern() {
-		curPattern = STROBE;
-	}
-
 	void ChangeStrobe() {
 		setPattern(STROBE);
 	}
@@ -356,11 +336,6 @@ namespace NEO {
 	}
 
 	/* *** Pattern: Surge *** */
-	void initSurgePattern() {
-		curPattern = SURGE;
-		fillAll(CRGB::Blue);
-	}
-
 	void ChangeSurge() {
 		setPattern(SURGE);
 	}
@@ -384,10 +359,6 @@ namespace NEO {
 	}
 
 	/* *** Pattern: Knight Rider *** */
-	void initKnightRiderPattern() {
-		curPattern = KNIGHT;
-	}
-
 	void ChangeKnightRider() {
 		setPattern(KNIGHT);
 	}
@@ -412,6 +383,44 @@ namespace NEO {
 			} else {
 				patternPosition = 0;
 			}
+		}
+	}
+
+	void setPattern(uint8_t p) {
+		setPatternMode();
+		setBrightness();
+
+		if ( p >= PATTERNS_NR_ITEMS ) {
+			curPattern = 1;
+		} else {
+			curPattern = p;
+		}
+
+		patternPosition = 0;
+		CFG::UpdatePatternID(curPattern);
+		switch (curPattern) {
+			case CHASE:
+				curPattern = CHASE;
+				break;
+			case CONFETTI:
+				curPattern = CONFETTI;
+				break;
+			case POPO:
+				curPattern = POPO;
+				break;
+			case RAINBOW:
+				curPattern = RAINBOW;
+				break;
+			case STROBE:
+				curPattern = STROBE;
+				break;
+			case SURGE:
+				curPattern = SURGE;
+				fillAll(CRGB::Blue);
+				break;
+			case KNIGHT:
+				curPattern = KNIGHT;
+				break;
 		}
 	}
 
@@ -444,43 +453,6 @@ namespace NEO {
 					knightRiderPatternUpdate();
 					break;
 			}
-		}
-	}
-
-	void setPattern(uint8_t p) {
-		setPatternMode();
-		setBrightness();
-
-		if ( p >= PATTERNS_NR_ITEMS ) {
-			curPattern = 1;
-		} else {
-			curPattern = p;
-		}
-
-		patternPosition = 0;
-		CFG::UpdatePatternID(curPattern);
-		switch (curPattern) {
-			case CHASE:
-				initChasePattern();
-				break;
-			case CONFETTI:
-				initConfettiPattern();
-				break;
-			case POPO:
-				initPopoPattern();
-				break;
-			case RAINBOW:
-				initRainbowPattern();
-				break;
-			case STROBE:
-				initStrobePattern();
-				break;
-			case SURGE:
-				initSurgePattern();
-				break;
-			case KNIGHT:
-				initKnightRiderPattern();
-				break;
 		}
 	}
 
