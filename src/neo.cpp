@@ -28,7 +28,8 @@ namespace NEO {
 	const uint8_t RED = 2;
 	const uint8_t GREEN = 3;
 	const uint8_t BLUE = 4;
-	const uint8_t COLORS_NR_ITEMS = 5;
+	const uint8_t YELLOW = 5;
+	const uint8_t COLORS_NR_ITEMS = 6;
 
 	uint8_t curColor = 0;
 
@@ -160,6 +161,11 @@ namespace NEO {
 		setColor(BLUE);
 	}
 
+	/* *** Color: Yellow *** */
+	void ChangeYellow() {
+		setColor(YELLOW);
+	}
+
 	void setColor(uint8_t c) {
 		CRGB colorRGB;
 
@@ -193,6 +199,10 @@ namespace NEO {
 				curColor = BLUE;
 				colorRGB = CRGB::Blue;
 				break;
+			case YELLOW:
+				curColor = YELLOW;
+				colorRGB = CRGB::Yellow;
+				break;
 		}
 		fillAll(colorRGB);
 	}
@@ -213,6 +223,9 @@ namespace NEO {
 				break;
 			case BLUE:
 				MySUI.println("Blue");
+				break;
+			case YELLOW:
+				MySUI.println("Yellow");
 				break;
 		}
 	}

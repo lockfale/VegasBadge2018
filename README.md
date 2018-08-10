@@ -37,7 +37,7 @@ To connect serial port (requires screen):
     make monitor
 ```
 
-To disconnect from the serial port in screen session: 
+To disconnect from the serial port in screen session:
 ```
     ^-a k Y
 ```
@@ -61,31 +61,32 @@ There are two buttons on the left side:
 ## Menu System
 
 The badges uses the SerialUI library (https://github.com/psychogenic/SerialUI)
-for a menu system on the serial port. 
+for a menu system on the serial port.
 
 The following is the current menu system:
 
 ```
 TOP
-   + colors              Change to solids colors 
-      * pink                Make the LEDs pink... 
-      * red                 Make the LEDs red... 
-      * green               Make the LEDs green... 
-      * blue                Make the LEDs blue... 
-   + patterns            Change LED patterns 
-      * chase               Chase the LEDs... 
-      * confetti            Party!! 
-      * popo                Popo coming... 
-      * rainbow             Taste the rainbow 
-      * strobe              Caution, may cause seizures!! 
+   + colors              Change to solids colors
+      * blue                Turn LEDs blue.
+      * green               Turn LEDs green.
+      * pink                Turn LEDs pink.
+      * red                 Turn LEDs red.
+      * yellow              Turn LEDs yellow.
+   + patterns            Change LED patterns
+      * chase               Chase the LEDs...
+      * confetti            Party!!
+      * popo                Popo coming...
+      * rainbow             Taste the rainbow
+      * strobe              Caution, may cause seizures!!
       * surge               Surging blue...
       * knight              Knight Rider
-   + i2c                 SAO Communications 
+   + i2c                 SAO Communications
       * scan                Scan for SAOs
-   + power               Power Savings 
-      * brightness          Toggle LED Brightness Level 
+   + power               Power Savings
+      * brightness          Toggle LED Brightness Level
       * print               Print Power Configuration
-  + debug               Debug 
+  + debug               Debug
       * eeprom              Print EEPROM settings
 ```
 

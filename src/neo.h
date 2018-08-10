@@ -14,15 +14,11 @@ namespace NEO {
 
 	void TurnAllOff();
 
-	void pinkColor();
-	void redColor();
-	void greenColor();
-	void blueColor();
-
+	void ChangeBlue();
+	void ChangeGreen();
 	void ChangePink();
 	void ChangeRed();
-	void ChangeGreen();
-	void ChangeBlue();
+	void ChangeYellow();
 
 	void ChangeChase();
 	void ChangeConfetti();

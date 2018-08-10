@@ -116,19 +116,10 @@ bool SetupSerialUI() {
 
 	/* *** Main Menu -> Colors *** */
 
-
 	if( ! smcolors->addCommand(
-		SUI_STR("pink"),
-		NEO::ChangePink,
-		SUI_STR("Make the LEDs pink..."))) {
-		MySUI.returnError(CouldntAddItemErr);
-		return false;
-	}
-
-	if( ! smcolors->addCommand(
-		SUI_STR("red"),
-		NEO::ChangeRed,
-		SUI_STR("Make the LEDs red..."))) {
+		SUI_STR("blue"),
+		NEO::ChangeBlue,
+		SUI_STR("Turn LEDs blue."))) {
 		MySUI.returnError(CouldntAddItemErr);
 		return false;
 	}
@@ -136,15 +127,31 @@ bool SetupSerialUI() {
 	if( ! smcolors->addCommand(
 		SUI_STR("green"),
 		NEO::ChangeGreen,
-		SUI_STR("Make the LEDs green..."))) {
+		SUI_STR("Turn LEDs green."))) {
 		MySUI.returnError(CouldntAddItemErr);
 		return false;
 	}
 
 	if( ! smcolors->addCommand(
-		SUI_STR("blue"),
-		NEO::ChangeBlue,
-		SUI_STR("Make the LEDs blue..."))) {
+		SUI_STR("pink"),
+		NEO::ChangePink,
+		SUI_STR("Turn LEDs pink."))) {
+		MySUI.returnError(CouldntAddItemErr);
+		return false;
+	}
+
+	if( ! smcolors->addCommand(
+		SUI_STR("red"),
+		NEO::ChangeRed,
+		SUI_STR("Turn LEDs red."))) {
+		MySUI.returnError(CouldntAddItemErr);
+		return false;
+	}
+
+	if( ! smcolors->addCommand(
+		SUI_STR("yellow"),
+		NEO::ChangeYellow,
+		SUI_STR("Turn LEDs yellow."))) {
 		MySUI.returnError(CouldntAddItemErr);
 		return false;
 	}
