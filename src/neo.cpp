@@ -250,14 +250,14 @@ namespace NEO {
 	void chasePatternUpdate() {
 		if (checkTime(100)) {
 			leds[patternPosition] = CHSV(gHue++, 255, 255);
-			FastLED.show();
-			fadeAll(80);
 			if (patternPosition + 1 < NUM_LEDS) {
 				patternPosition++;
 			} else {
 				patternPosition = 0;
 			}
 		}
+			FastLED.show();
+			fadeAll(180);
 	}
 
 	/* *** Pattern: Confetti *** */
@@ -269,9 +269,9 @@ namespace NEO {
 		if (checkTime(50)) {
 			uint8_t pos = random8(NUM_LEDS);
 			leds[pos] = CHSV(gHue + random8(64), 200, 255);
-			FastLED.show();
-			fadeAll(80);
 		}
+		FastLED.show();
+		fadeAll(180);
 	}
 
 	/* *** Pattern: Popo *** */
@@ -292,14 +292,14 @@ namespace NEO {
 				leds[2] = CRGB::Blue;
 				leds[3] = CRGB::Blue;
 			}
-			FastLED.show();
-			fadeAll(180);
 			if (patternPosition < 20) {
 				patternPosition++;
 			} else {
 				patternPosition = 0;
 			}
 		}
+		FastLED.show();
+		fadeAll(180);
 	}
 
 	/* *** Pattern: Rainbow *** */
@@ -326,14 +326,14 @@ namespace NEO {
 					leds[i] = CRGB(0xff, 0xff, 0xff);
 				}
 			}
-			FastLED.show();
-			fadeAll(90);
 			if (patternPosition + 1 < 50) {
 				patternPosition++;
 			} else {
 				patternPosition = 0;
 			}
 		}
+		FastLED.show();
+		fadeAll(120);
 	}
 
 	/* *** Pattern: Surge *** */
@@ -365,7 +365,7 @@ namespace NEO {
 	}
 
 	void knightRiderPatternUpdate() {
-		if (checkTime(150)) {
+		if (checkTime(180)) {
 			if (patternPosition == 0) {
 				leds[0] = CRGB::Red;
 				leds[5] = CRGB::Red;
@@ -377,14 +377,14 @@ namespace NEO {
 				leds[3] = CRGB::Red;
 			}
 			leds[patternPosition] = CRGB::Red;
-			FastLED.show();
-			fadeAll(90);
 			if (patternPosition < 3) {
 				patternPosition++;
 			} else {
 				patternPosition = 0;
 			}
 		}
+		FastLED.show();
+		fadeAll(150);
 	}
 
 	/* *** Pattern: Fire *** */
