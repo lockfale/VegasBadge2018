@@ -52,9 +52,13 @@ namespace NEO {
 
 	uint8_t curMode = NO_MODE;
 
-	void SetupNeo() {
-		FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
+	/******************************************************
+	 *
+	 * Brightness Functions
+	 *
+	 ******************************************************/
 
+	void setBrightness() {
 		if(CFG::ReadBrightness() == brightnessHigh) {
 			FastLED.setBrightness( brightnessHigh );
 		} else if(CFG::ReadBrightness() == brightnessLow) {
@@ -62,25 +66,6 @@ namespace NEO {
 		} else {
 			FastLED.setBrightness( brightnessHigh );
 			CFG::UpdateBrightness( brightnessHigh );
-		}
-
-		if ( CFG::ReadMode() == MODE_COLORS ) {
-			setColorMode();
-			setColor(CFG::ReadColorID());
-		} else if ( CFG::ReadMode() == MODE_PATTERNS ) {
-			setPatternMode();
-			setPattern(CFG::ReadPatternID());
-		} else {
-			setColorMode();
-			setColor(CFG::ReadColorID());
-			CFG::UpdateMode(MODE_COLORS);
-		}
-
-	}
-
-	void fadeAll(uint8_t value) {
-		for( uint16_t j = 0; j < NUM_LEDS; j++) {
-			leds[j].nscale8(value);
 		}
 	}
 
@@ -100,6 +85,31 @@ namespace NEO {
 	void PrintBrightness() {
 		MySUI.print("Brightness: ");
 		MySUI.println(FastLED.getBrightness());
+	}
+
+	void SetupNeo() {
+		FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
+
+		setBrightness();
+
+		if ( CFG::ReadMode() == MODE_COLORS ) {
+			setColorMode();
+			setColor(CFG::ReadColorID());
+		} else if ( CFG::ReadMode() == MODE_PATTERNS ) {
+			setPatternMode();
+			setPattern(CFG::ReadPatternID());
+		} else {
+			setColorMode();
+			setColor(CFG::ReadColorID());
+			CFG::UpdateMode(MODE_COLORS);
+		}
+
+	}
+
+	void fadeAll(uint8_t value) {
+		for( uint16_t j = 0; j < NUM_LEDS; j++) {
+			leds[j].nscale8(value);
+		}
 	}
 
 	uint8_t checkTime ( uint16_t duration ) {
@@ -152,7 +162,10 @@ namespace NEO {
 
 	void setColor(uint8_t c) {
 		CRGB colorRGB;
+
 		setColorMode();
+		setBrightness();
+
 		if ( c >= COLORS_NR_ITEMS ) {
 			curColor = 1;
 		} else {
@@ -423,6 +436,8 @@ namespace NEO {
 
 	void setPattern(uint8_t p) {
 		setPatternMode();
+		setBrightness();
+
 		if ( p >= PATTERNS_NR_ITEMS ) {
 			curPattern = 1;
 		} else {
