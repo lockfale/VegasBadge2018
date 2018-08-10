@@ -31,15 +31,9 @@ namespace NEO {
 
 	void UpdateNeo();
 
-	void setColor(uint8_t);
 	void PrintColor();
-
-	void setPattern(uint8_t);
 	void PrintPattern();
 
-	void setColorMode();
-	void setPatternMode();
-	void setMode(uint8_t);
 	void PrintMode();
 	void switchMode();
 	void cycleCurrentMode();

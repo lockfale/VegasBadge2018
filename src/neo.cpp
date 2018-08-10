@@ -56,6 +56,18 @@ namespace NEO {
 
 	/******************************************************
 	 *
+	 * Declarations
+	 *
+	 ******************************************************/
+
+	void setColor(uint8_t);
+	void setPattern(uint8_t);
+	void setColorMode();
+	void setPatternMode();
+	void setMode(uint8_t);
+
+	/******************************************************
+	 *
 	 * Brightness Functions
 	 *
 	 ******************************************************/
