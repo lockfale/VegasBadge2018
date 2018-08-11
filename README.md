@@ -1,5 +1,9 @@
-# VegasBadge2018
-The badge to rule all SAOs in Vegas
+# The FALE Badge for VEGAS2018
+
+The FALE badge that you can stick Shitty Add-Ons (SAOs) to in Vegas2018. 
+
+[#badgelife](https://twitter.com/hashtag/badgelife?f=tweets&vertical=default&lang=en)
+[#shittyaddons](https://twitter.com/hashtag/shittyaddons?f=tweets&vertical=default&src=hash)
 
 ## Modes and Buttons
 
