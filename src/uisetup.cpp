@@ -13,6 +13,7 @@
 #include "neo.h"
 #include "i2c.h"
 #include "savecfg.h"
+#include "bbutton.h"
 
 
 
@@ -254,6 +255,14 @@ bool SetupSerialUI() {
 		SUI_STR("brightness"),
 		NEO::ToggleBrightness,
 		SUI_STR("Toggle LED Brightness Level"))) {
+		MySUI.returnError(CouldntAddItemErr);
+		return false;
+	}
+
+	if( ! smpower->addCommand(
+		SUI_STR("sleep"),
+		Button::sleepNow,
+		SUI_STR("Put badge into sleep mode"))) {
 		MySUI.returnError(CouldntAddItemErr);
 		return false;
 	}

@@ -47,6 +47,7 @@ TOP
       * scan                Scan for SAOs
    + power               Power Savings
       * brightness          Toggle LED Brightness Level
+      * sleep               Put badge into sleep mode
       * print               Print Power Configuration
   + debug               Debug
       * eeprom              Print EEPROM settings
