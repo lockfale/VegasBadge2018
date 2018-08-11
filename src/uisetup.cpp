@@ -222,6 +222,14 @@ bool SetupSerialUI() {
 		return false;
 	}
 
+	if( ! smpatterns->addCommand(
+		SUI_STR("groovy"),
+		NEO::ChangeGroovy,
+		SUI_STR("Groovy man"))) {
+		MySUI.returnError(CouldntAddItemErr);
+		return false;
+	}
+
 	/* *** Main Menu -> I2C *** */
 
 	if( ! smi2c->addCommand(

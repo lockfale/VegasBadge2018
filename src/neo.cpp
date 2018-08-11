@@ -44,7 +44,8 @@ namespace NEO {
 	const uint8_t SURGE = 6;
 	const uint8_t KNIGHT = 7;
 	const uint8_t FIRE = 8;
-	const uint8_t PATTERNS_NR_ITEMS = 9;
+	const uint8_t GROOVY = 9;
+	const uint8_t PATTERNS_NR_ITEMS = 10;
 
 	uint8_t curPattern = 0;
 
@@ -53,6 +54,9 @@ namespace NEO {
 	const uint8_t MODE_PATTERNS = 2;
 
 	uint8_t curMode = NO_MODE;
+
+	const uint8_t kWidth  = 3;
+	const uint8_t kHeight = 2;
 
 	/******************************************************
 	 *
@@ -400,6 +404,9 @@ namespace NEO {
 	}
 
 	/* *** Pattern: Fire *** */
+	// Based on Fire2012
+	// https://plus.google.com/112916219338292742137/posts/CC6yursCCrN
+
 	// COOLING: How much does the air cool as it rises?
 	// Less cooling = taller flames.  More cooling = shorter flames.
 	// Default 55, suggested range 20-100
@@ -438,6 +445,51 @@ namespace NEO {
 			leds[j] = HeatColor( heat[j]);
 		}
 		FastLED.show();
+	}
+
+	/* *** Pattern: Groovy *** */
+	// Based on XY Matrix
+	// https://plus.google.com/112916219338292742137/posts/Xg76A57iXV6
+	void ChangeGroovy() {
+		setPattern(GROOVY);
+	}
+
+	// Helper function that translates from x, y into an index into
+	// the LED array
+	// Handles both 'row order' and 'serpentine' pixel layouts.
+	uint16_t XY( uint8_t x, uint8_t y) {
+		uint16_t i;
+
+		if( y & 0x01) {
+			// Odd rows run backwards
+			uint8_t reverseX = (kWidth - 1) - x;
+			i = (y * kWidth) + reverseX;
+		} else {
+			// Even rows run forwards
+			i = (y * kWidth) + x;
+		}
+		return i;
+	}
+
+	void DrawOneFrame( byte startHue8, int8_t yHueDelta8, int8_t xHueDelta8) {
+		byte lineStartHue = startHue8;
+		for( byte y = 0; y < kHeight; y++) {
+			lineStartHue += yHueDelta8;
+			byte pixelHue = lineStartHue;
+			for( byte x = 0; x < kWidth; x++) {
+				pixelHue += xHueDelta8;
+				leds[ XY(x, y)]  = CHSV( pixelHue, 255, 255);
+			}
+		}
+	}
+
+	void GroovyPatternUpdate() {
+		uint32_t ms = millis();
+		int32_t yHueDelta32 = ((int32_t)cos16( ms * 27 ) * (50 / kWidth));
+		int32_t xHueDelta32 = ((int32_t)cos16( ms * 39 ) * (45 / kHeight));
+		DrawOneFrame( ms / 65536, yHueDelta32 / 32768, xHueDelta32 / 32768);
+		FastLED.show();
+
 	}
 
 	void setPattern(uint8_t p) {
@@ -480,6 +532,9 @@ namespace NEO {
 			case FIRE:
 				curPattern = FIRE;
 				break;
+			case GROOVY:
+				curPattern = GROOVY;
+				break;
 		}
 	}
 
@@ -514,6 +569,9 @@ namespace NEO {
 				case FIRE:
 					firePatternUpdate();
 					break;
+				case GROOVY:
+					GroovyPatternUpdate();
+					break;
 			}
 		}
 	}
@@ -546,6 +604,9 @@ namespace NEO {
 				break;
 			case FIRE:
 				MySUI.println("Fire");
+				break;
+			case GROOVY:
+				MySUI.println("Groovy");
 				break;
 		}
 	}

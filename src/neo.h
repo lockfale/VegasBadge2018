@@ -28,6 +28,7 @@ namespace NEO {
 	void ChangeSurge();
 	void ChangeKnightRider();
 	void ChangeFire();
+	void ChangeGroovy();
 
 	void UpdateNeo();
 
