@@ -83,6 +83,7 @@ If you clone the repository in a directory other than $HOME/VegasBadge2018, you 
 ## Prerequisites
   * python2-serial is required for **make upload**
   * screen is required for **make monitor**
+  * Add account to dialup group or run make commands as root :(
 
 ## Build and Upload to badge
 
