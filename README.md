@@ -79,7 +79,7 @@ As root untar in /usr/local and create symlink:
     # ln -s arduino-1.8.5/ arduino
 ```
 
-**NOTE:** This package should provide avrdude, avr-gcc, avr-g++, etc. The Arduino-Makefile should find these tools if the archive is installed in /usr/local/ardiono.
+**NOTE:** This archive should provide avrdude, avr-gcc, avr-g++, etc. The Arduino-Makefile should find these tools if the archive is installed in /usr/local/arduino.
 ### Cloning this repository
 
 As regular user, download badge code into home directory (--recursive will pull down dependency projects):
