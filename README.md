@@ -59,7 +59,14 @@ The following are commands that are available on all menus:
 ?                   List available menu items
 ```
 
-## If you need to setup an Arduino build environment:
+## Installation
+
+### Prerequisites
+  * python2-serial is required for **make upload**
+  * screen is required for **make monitor**
+  * Add account to dialup group or run make commands as root :(
+
+### Setting up the Arduino build environment
 
 Download the latest Arduino archive from https://www.arduino.cc/en/Main/Software
 
@@ -72,6 +79,8 @@ As root untar in /usr/local and create symlink:
     # ln -s arduino-1.8.5/ arduino
 ```
 
+### Cloning this repository
+
 As regular user, download badge code into home directory (--recursive will pull down dependency projects):
 ```
     cd
@@ -80,12 +89,7 @@ As regular user, download badge code into home directory (--recursive will pull 
 
 If you clone the repository in a directory other than $HOME/VegasBadge2018, you will need to update the PROJECT_DIR line in VegasBadge2018/src/Makefile.
 
-## Prerequisites
-  * python2-serial is required for **make upload**
-  * screen is required for **make monitor**
-  * Add account to dialup group or run make commands as root :(
-
-## Build and Upload to badge
+### Build and Upload to badge
 
 Run the following commands in the src directory.
 
@@ -98,6 +102,8 @@ To upload to badge:
 ```
     make upload
 ```
+
+### Connecting to the Serial Port
 
 To connect serial port (requires screen):
 ```
