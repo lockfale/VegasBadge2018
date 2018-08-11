@@ -79,6 +79,7 @@ As root untar in /usr/local and create symlink:
     # ln -s arduino-1.8.5/ arduino
 ```
 
+**NOTE:** This package should provide avrdude, avr-gcc, avr-g++, etc. The Arduino-Makefile should find these tools if the archive is installed in /usr/local/ardiono.
 ### Cloning this repository
 
 As regular user, download badge code into home directory (--recursive will pull down dependency projects):
@@ -87,7 +88,7 @@ As regular user, download badge code into home directory (--recursive will pull 
     git clone --recursive https://github.com/lockfale/VegasBadge2018.git
 ```
 
-If you clone the repository in a directory other than $HOME/VegasBadge2018, you will need to update the PROJECT_DIR line in VegasBadge2018/src/Makefile.
+**NOTE:** If you clone the repository in a directory other than $HOME/VegasBadge2018, you will need to update the PROJECT_DIR line in VegasBadge2018/src/Makefile.
 
 ### Build and Upload to badge
 
