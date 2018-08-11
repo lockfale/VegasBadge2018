@@ -45,7 +45,8 @@ namespace NEO {
 	const uint8_t KNIGHT = 7;
 	const uint8_t FIRE = 8;
 	const uint8_t GROOVY = 9;
-	const uint8_t PATTERNS_NR_ITEMS = 10;
+	const uint8_t SMOOTHCHASE = 10;
+	const uint8_t PATTERNS_NR_ITEMS = 11;
 
 	uint8_t curPattern = 0;
 
@@ -55,8 +56,15 @@ namespace NEO {
 
 	uint8_t curMode = NO_MODE;
 
+	// Groovey Variables
 	const uint8_t kWidth  = 3;
 	const uint8_t kHeight = 2;
+
+	// SmoothChase variables
+	uint8_t        lb16pos = 0;   // position of the bar
+	uint8_t        lb16delta = 8; // how many 16ths of a pixel to move the Bar
+	uint16_t       lbhue16 = 0;   // color for Fractional Bar
+	const uint8_t  lbWidth  = 3; // width of each light bar, in whole pixels
 
 	/******************************************************
 	 *
@@ -492,6 +500,59 @@ namespace NEO {
 
 	}
 
+	/* *** Pattern: Smooth Chase *** */
+	void ChangeSmoothChase() {
+		setPattern(SMOOTHCHASE);
+	}
+
+	void drawFractionalBar( int pos16, int width, uint8_t hue) {
+		int i = pos16 / 16; // convert from pos to raw pixel number
+		uint8_t frac = pos16 & 0x0F; // extract the 'factional' part of the position
+
+		uint8_t firstpixelbrightness = 255 - (frac * 16);
+		uint8_t lastpixelbrightness  = 255 - firstpixelbrightness;
+		uint8_t bright;
+		for( int n = 0; n <= width; n++) {
+			if( n == 0) {
+				bright = firstpixelbrightness;
+			} else if( n == width ) {
+				bright = lastpixelbrightness;
+			} else {
+				bright = 255;
+			}
+			leds[i] += CHSV( hue, 255, bright);
+			i++;
+			if( i == NUM_LEDS) i = 0; // wrap around
+		}
+	}
+
+	void SmoothChasePatternUpdate() {
+		//if (checkTime(40)) {
+			// Update the "Fraction Bar" by 1/16th pixel every time
+			lb16pos += lb16delta;
+
+			// wrap around at end
+			// // remember that lb16pos contains position in "16ths of a pixel"
+			// so the 'end of the strip' is (NUM_LEDS * 16)
+			if( lb16pos >= (NUM_LEDS * 16)) {
+				lb16pos -= (NUM_LEDS * 16);
+			}
+
+			// Draw everything:
+			// clear the pixel buffer
+			memset8( leds, 0, NUM_LEDS * sizeof(CRGB));
+
+			// advance to the next hue
+			lbhue16 = lbhue16 + 29;
+
+			// draw the Fractional Bar, length=4px
+			drawFractionalBar( lb16pos, lbWidth, lbhue16 / 256);
+
+			FastLED.show();
+		//}
+	}
+
+	/* *** setPattern *** */
 	void setPattern(uint8_t p) {
 		setMode(MODE_PATTERNS);
 		setBrightness();
@@ -535,6 +596,9 @@ namespace NEO {
 			case GROOVY:
 				curPattern = GROOVY;
 				break;
+			case SMOOTHCHASE:
+				curPattern = SMOOTHCHASE;
+				break;
 		}
 	}
 
@@ -572,6 +636,9 @@ namespace NEO {
 				case GROOVY:
 					GroovyPatternUpdate();
 					break;
+				case SMOOTHCHASE:
+					SmoothChasePatternUpdate();
+					break;
 			}
 		}
 	}
@@ -607,6 +674,9 @@ namespace NEO {
 				break;
 			case GROOVY:
 				MySUI.println("Groovy");
+				break;
+			case SMOOTHCHASE:
+				MySUI.println("Smooth Chase");
 				break;
 		}
 	}

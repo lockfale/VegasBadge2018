@@ -230,6 +230,14 @@ bool SetupSerialUI() {
 		return false;
 	}
 
+	if( ! smpatterns->addCommand(
+		SUI_STR("smoothchase"),
+		NEO::ChangeSmoothChase,
+		SUI_STR("A smoother chase"))) {
+		MySUI.returnError(CouldntAddItemErr);
+		return false;
+	}
+
 	/* *** Main Menu -> I2C *** */
 
 	if( ! smi2c->addCommand(
