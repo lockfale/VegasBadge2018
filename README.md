@@ -85,6 +85,8 @@ If you clone the repository in a directory other than $HOME/VegasBadge2018, you 
 
 ## Build and Upload to badge
 
+Run the following commands in the src directory.
+
 To build code:
 ```
     make
