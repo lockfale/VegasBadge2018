@@ -274,10 +274,10 @@ namespace NEO {
 	void chasePatternUpdate() {
 		if (checkTime(100)) {
 			leds[patternPosition] = CHSV(gHue++, 255, 255);
-			if (patternPosition + 1 < NUM_LEDS) {
-				patternPosition++;
+			if (patternPosition > 0) {
+				patternPosition--;
 			} else {
-				patternPosition = 0;
+				patternPosition = NUM_LEDS - 1;
 			}
 		}
 			FastLED.show();
