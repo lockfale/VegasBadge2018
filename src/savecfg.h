@@ -18,6 +18,7 @@ namespace CFG {
 	uint8_t ReadBrightness();
 	bool UpdateBrightness(uint8_t);
 	void PrintEEPROM(void);
+	void PrintVERSION(void);
 
 }
 

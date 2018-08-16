@@ -285,6 +285,14 @@ bool SetupSerialUI() {
 		return false;
 	}
 
+	if( ! smdebug->addCommand(
+		SUI_STR("version"),
+		CFG::PrintVERSION,
+		SUI_STR("Print firmware version"))) {
+		MySUI.returnError(CouldntAddItemErr);
+		return false;
+	}
+
 	return true;
 
 }

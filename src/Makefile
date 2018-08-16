@@ -44,4 +44,8 @@ MONITOR_BAUDRATE = 115200
 ### The port your board is connected to. Using an '*' tries all the ports and finds the right one.
 MONITOR_PORT = /dev/ttyACM0
 
+GIT_VERSION := $(shell git log -1 --date=short --pretty=format:'%ad-%h')
+
+CXXFLAGS += -DVERSION=\"$(GIT_VERSION)\"
+
 include $(ARDMK_DIR)/Arduino.mk

@@ -91,4 +91,8 @@ namespace CFG {
 		NEO::PrintBrightness();
 	}
 
+	void PrintVERSION(void) {
+		MySUI.print("Version: ");
+		MySUI.println(VERSION);
+	}
 }
