@@ -55,6 +55,7 @@ TOP
       * print               Print Power Configuration
   + debug               Debug
       * eeprom              Print EEPROM settings
+      * version             Print firmware version
 ```
 
 The following are commands that are available on all menus:
