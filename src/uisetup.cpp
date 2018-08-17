@@ -249,6 +249,14 @@ bool SetupSerialUI() {
 		return false;
 	}
 
+	if( ! smi2c->addCommand(
+		SUI_STR("claptrap"),
+		I2C::SetupClapTrap,
+		SUI_STR("Setup ClapTrap"))) {
+		MySUI.returnError(CouldntAddItemErr);
+		return false;
+	}
+
 	/* *** Main Menu -> power *** */
 
 	if( ! smpower->addCommand(

@@ -8,7 +8,9 @@
 namespace I2C {
 
 	void SetupI2C();
+	void SetupClapTrap();
 	void Scan();
+	void UpdateI2CPattern();
 }
 
 
