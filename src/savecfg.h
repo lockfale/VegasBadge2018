@@ -17,6 +17,10 @@ namespace CFG {
 	bool UpdateMode(uint8_t);
 	uint8_t ReadBrightness();
 	bool UpdateBrightness(uint8_t);
+
+	bool ReadClaptrapState();
+	bool UpdateClaptrapState(bool);
+
 	void PrintEEPROM(void);
 	void PrintVERSION(void);
 

@@ -2,6 +2,7 @@
 #include "badge.h"
 #include "savecfg.h"
 #include "neo.h"
+#include "i2c.h"
 
 /*
 	savecfg.cpp -- part of the VegasBadge2018 project.
@@ -14,13 +15,14 @@ namespace CFG {
 	int versionLength = 7;
 
 	// badgeVersion = major version, minor version, year, month, day, hour, min
-	byte badgeVersion[] = {1, 0, 18, 8 , 7 , 9 , 7 };
+	byte badgeVersion[] = {1, 0, 18, 8 , 16 , 20 , 17 };
 
 	uint8_t cfgVersion;
 	uint8_t cfgColorID;
 	uint8_t cfgPatternID;
 	uint8_t cfgMode;
 	uint8_t cfgBrightness;
+	uint8_t cfgClaptrapState;
 
 	void SetupCfg() {
 		byte localVersion[versionLength];
@@ -30,6 +32,7 @@ namespace CFG {
 		cfgPatternID = EEPROM.getAddress(sizeof(byte));
 		cfgMode = EEPROM.getAddress(sizeof(byte));
 		cfgBrightness = EEPROM.getAddress(sizeof(byte));
+		cfgClaptrapState = EEPROM.getAddress(sizeof(byte));
 
 		EEPROM.readBlock<byte>(cfgVersion, localVersion, versionLength);
 		if (memcmp(localVersion, badgeVersion, versionLength) != 0) {
@@ -40,6 +43,8 @@ namespace CFG {
 			UpdatePatternID(0);
 			UpdateMode(1);
 			UpdateBrightness(255);
+
+			UpdateClaptrapState(false);
 
 		}
 	}
@@ -84,11 +89,26 @@ namespace CFG {
 		return EEPROM.updateByte(cfgBrightness, id);
 	}
 
+	bool ReadClaptrapState()
+	{
+		return EEPROM.read(cfgClaptrapState);
+	}
+
+	bool UpdateClaptrapState(bool state)
+	{
+		if(state == false) {
+			return EEPROM.updateByte(cfgClaptrapState, false);
+		} else {
+			return EEPROM.updateByte(cfgClaptrapState, true);
+		}
+	}
+
 	void PrintEEPROM(void) {
 		NEO::PrintColor();
 		NEO::PrintPattern();
 		NEO::PrintMode();
 		NEO::PrintBrightness();
+		I2C::PrintClaptrapState();
 	}
 
 	void PrintVERSION(void) {

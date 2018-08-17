@@ -1,6 +1,7 @@
 #include <Wire.h>
 #include "badge.h"
 #include "i2c.h"
+#include "savecfg.h"
 
 /*
 	i2c.cpp -- part of the VegasBadge2018 project.
@@ -19,21 +20,6 @@ namespace I2C {
 
 	void SetupI2C() {
 		Wire.begin();
-	}
-
-	void SetupClapTrap() {
-		MySUI.println(F("Setting up ClapTrap"));
-		Wire.beginTransmission(0x20);
-		Wire.write(0x00); // IODIRA register
-		Wire.write(0x00); // set entire PORT A to output
-		Wire.endTransmission();
-
-		Wire.beginTransmission(0x20);
-		Wire.write(0x01); // IODIRB register
-		Wire.write(0x00); // set entire PORT B to output
-		Wire.endTransmission();
-
-		claptrapStatus = true;
 	}
 
 	void Scan() {
@@ -72,6 +58,36 @@ namespace I2C {
 		else
 			MySUI.println("done\n");
 
+	}
+
+	/*****************************************************
+	 * ClapTrap SAO
+	 *****************************************************/
+	void ToggleClapTrap() {
+		if( CFG::ReadClaptrapState() == false) {
+			MySUI.println(F("Turning ClapTrap On"));
+			Wire.beginTransmission(0x20);
+			Wire.write(0x00); // IODIRA register
+			Wire.write(0x00); // set entire PORT A to output
+			Wire.endTransmission();
+
+			Wire.beginTransmission(0x20);
+			Wire.write(0x01); // IODIRB register
+			Wire.write(0x00); // set entire PORT B to output
+			Wire.endTransmission();
+
+			claptrapStatus = true;
+			CFG::UpdateClaptrapState(true);
+		} else {
+			Wire.beginTransmission(0x20);
+			Wire.write(0x13); // address port B
+			Wire.write(0b00000000);  // value to send
+			Wire.endTransmission();
+
+			claptrapStatus = false;
+			MySUI.println(F("Turning ClapTrap Off"));
+			CFG::UpdateClaptrapState(false);
+		}
 	}
 
 	uint8_t checkClapTrapTime ( uint16_t duration ) {
@@ -125,6 +141,15 @@ namespace I2C {
 			} else {
 				claptrapPosition = 0;
 			}
+		}
+	}
+
+	void PrintClaptrapState() {
+		MySUI.print("Claptrap: ");
+		if( CFG::ReadClaptrapState() == false) {
+			MySUI.println(F("Off"));
+		} else {
+			MySUI.println(F("On"));
 		}
 	}
 

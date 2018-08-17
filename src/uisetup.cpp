@@ -251,8 +251,8 @@ bool SetupSerialUI() {
 
 	if( ! smi2c->addCommand(
 		SUI_STR("claptrap"),
-		I2C::SetupClapTrap,
-		SUI_STR("Setup ClapTrap"))) {
+		I2C::ToggleClapTrap,
+		SUI_STR("Toggle ClapTrap on/off"))) {
 		MySUI.returnError(CouldntAddItemErr);
 		return false;
 	}
